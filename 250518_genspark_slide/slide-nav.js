@@ -1,72 +1,60 @@
 /* slide-nav.js ───────────────────────────────────────────
-   - ページ送り        : ← / → キー・左右 40% タップ・Back/Next ボタン
-   - 縦スクロール      : 常時可
-   - **横スクロール**  : モバイル／PC 共通で自由に可   ←★今回強化
-   - 水平スクロール操作でページ送りはしない
-   - UI は JS で注入（HTML 変更不要）
+   - ページ送りは「← / → キー」または「右下 Back / Next ボタン」のみ
+   - 画面をタップ／クリックしてもページ送りしない（誤作動防止）
+   - 縦横スクロールは PC / モバイル共通で自由
+   - HTML 変更不要。JS だけで UI を注入
    ------------------------------------------------------ */
 (() => {
   /* ===== スライド定義 ===== */
   const slides = ["index.html", "02.html", "03.html", "04.html", "05.html"];
 
-  /* ===== 現在位置 ===== */
-  const curName = location.pathname.split("/").pop() || "index.html";
-  const curIdx  = slides.indexOf(curName);
+  /* ===== 現在ページを判定（末尾 / のアクセスも index.html 扱い） ===== */
+  let curName = location.pathname.split("/").pop();
+  if (!curName || !curName.includes(".")) curName = "index.html";
+  const curIdx = slides.indexOf(curName);
 
-  const jump = (i) => {
-    if (i < 0 || i >= slides.length) return;
+  const goTo = (i) => {
+    if (i < 0 || i >= slides.length) return;       // 範囲外は無視
     const dir = location.pathname.replace(/[^/]*$/, "");
     location.href = dir + slides[i];
   };
 
   /* ── キーボード ← / → ───────────────────────────── */
   addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") { e.preventDefault(); jump(curIdx + 1); }
-    if (e.key === "ArrowLeft")  { e.preventDefault(); jump(curIdx - 1); }
-  });
-
-  /* ── クリック / タップ領域 ───────────────────────── */
-  addEventListener("click", (e) => {
-    /* スクロール直後の「おまけクリック」を無視 */
-    if (window.__gs_suppressClick) return (window.__gs_suppressClick = false);
-    const ratio = e.clientX / innerWidth;
-    if (ratio > 0.6)       jump(curIdx + 1);
-    else if (ratio < 0.4)  jump(curIdx - 1);
-  });
-
-  /* ── ドラッグ量で「スクロール vs タップ」を判定 ───────── */
-  let sx = 0, sy = 0;
-  const TH = 25;
-  const suppress = () => (window.__gs_suppressClick = true);
-  addEventListener("pointerdown", (e) => { sx = e.clientX; sy = e.clientY; });
-  addEventListener("pointerup",   (e) => {
-    if (Math.abs(e.clientX - sx) > TH || Math.abs(e.clientY - sy) > TH) suppress();
+    if (e.key === "ArrowRight") { e.preventDefault(); goTo(curIdx + 1); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(curIdx - 1); }
   });
 
   /* ── スクロール許可（縦横とも）────────────────────── */
-  const html = document.documentElement, body = document.body;
-  html.style.overflowX = "auto";         // ★横スクロール解禁
+  const html = document.documentElement;
+  html.style.overflowX = "auto";
   html.style.overflowY = "auto";
-  body.style.overscrollBehaviorX = "auto"; // iOS Safari “跳ね返り” も許可
 
-  /* ===== viewport メタタグ ===== */
-  const meta = document.createElement("meta");
-  meta.name = "viewport";
-  meta.content = "width=device-width, initial-scale=1";
-  document.head.appendChild(meta);
+  /* ===== viewport メタタグ（モバイル最適化） ===== */
+  if (!document.querySelector('meta[name="viewport"]')) {
+    const meta = document.createElement("meta");
+    meta.name = "viewport";
+    meta.content = "width=device-width, initial-scale=1";
+    document.head.appendChild(meta);
+  }
 
   /* ===== 右下 Back / Next ボタン ===== */
-  const box = document.createElement("div");
-  box.innerHTML = `
+  const navBox = document.createElement("div");
+  navBox.innerHTML = `
     <button id="gs-back">Back</button>
     <button id="gs-next">Next</button>
   `;
-  Object.assign(box.style, {
-    position: "fixed", bottom: "12px", right: "12px",
-    display: "flex", gap: "8px", zIndex: 9999,
-    pointerEvents: "auto"         // 横スクロールを邪魔しない
+  Object.assign(navBox.style, {
+    position: "fixed",
+    bottom: "12px",
+    right: "12px",
+    display: "flex",
+    gap: "8px",
+    zIndex: 9999,
+    pointerEvents: "auto",
   });
 
+  /* ボタン基本スタイル */
   const css = `
     #gs-back, #gs-next {
       padding: 8px 14px;
@@ -84,7 +72,16 @@
   styleTag.textContent = css;
   document.head.appendChild(styleTag);
 
-  document.body.appendChild(box);
-  document.getElementById("gs-back").onclick = () => jump(curIdx - 1);
-  document.getElementById("gs-next").onclick = () => jump(curIdx + 1);
+  /* クリックイベントはバブリングさせず誤作動を回避 */
+  navBox.addEventListener("click", (e) => e.stopPropagation());
+  document.body.appendChild(navBox);
+
+  document.getElementById("gs-back").addEventListener("click", (e) => {
+    e.stopPropagation();
+    goTo(curIdx - 1);
+  });
+  document.getElementById("gs-next").addEventListener("click", (e) => {
+    e.stopPropagation();
+    goTo(curIdx + 1);
+  });
 })();
