@@ -100,13 +100,13 @@
 function applyZoom() {
   document.body.style.transform = `scale(${zoom})`;
   document.body.style.transformOrigin = "0 0";
-  // スライドの実幅（scrollWidthが一番正確）
-  const slideWidth = Math.max(
-    document.body.scrollWidth, 
-    document.body.offsetWidth, 
-    document.documentElement.scrollWidth, 
-    document.documentElement.offsetWidth
-  );
+  // ★ スライドの本体ラッパーを優先して取得（.slide > #main > body）
+  const slideElem =
+    document.querySelector('.slide') ||
+    document.getElementById('main') ||
+    document.body;
+
+  const slideWidth = slideElem.scrollWidth;
   document.body.style.minWidth = (slideWidth * zoom) + "px";
   document.documentElement.style.minWidth = (slideWidth * zoom) + "px";
 }
