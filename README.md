@@ -34,3 +34,11 @@ gensparkの概要を説明する、クールデザインのスライド5枚を�
 (o3での調査結果を貼り付ける)
 
 ```
+
+3. 各htmlの末尾に、js script行を追記する。
+
+```
+    <script defer src="./slide-nav.js"></script>
+</body>
+</html>
+```
