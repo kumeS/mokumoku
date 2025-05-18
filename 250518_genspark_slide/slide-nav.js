@@ -1,56 +1,62 @@
 /* slide-nav.js ───────────────────────────────────────────
-   - ← → PageUp PageDown Space キー、クリック、スクロールでページ送り
-   - 自動スケーリングは行わない（ブラウザの等倍表示に委ねる）
-   - 追加 UI を一切描画しない（矢印やガイドは非表示）
+   - ← ↑ ↓ → PageUp PageDown Space キー、クリック、スクロールでページ送り
+   - スライドがウィンドウより大きい場合は通常の縦スクロールを維持
+   - ページのどの位置にいても ↑／↓／PageUp／PageDown／Space／クリック で送り可能
+   - UI（ボタン・矢印）は描画しない
    ------------------------------------------------------ */
 (() => {
   /* ===== 設定 ===== */
   const slides = ["index.html", "02.html", "03.html", "04.html", "05.html"];
 
-  /* ===== ページ遷移 ===== */
+  /* ===== ページ遷移ユーティリティ ===== */
   const currentName  = location.pathname.split("/").pop() || "index.html";
   const currentIndex = slides.indexOf(currentName);
 
   const goTo = (i) => {
     if (i < 0 || i >= slides.length) return;
-    const base = location.pathname.replace(/[^/]*$/, ""); // ディレクトリ部分
+    const base = location.pathname.replace(/[^/]*$/, "");
     location.href = base + slides[i];
   };
 
-  /* --- キーボード操作 --- */
+  /* ===== キーボード操作 ===== */
   addEventListener("keydown", (e) => {
-    const k = e.key;
-    if (k === "ArrowRight" || k === "PageDown" || k === " ") {
+    const { key } = e;
+    /* 次へ */
+    if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(key)) {
       e.preventDefault(); goTo(currentIndex + 1);
     }
-    if (k === "ArrowLeft" || k === "PageUp") {
+    /* 前へ */
+    if (["ArrowLeft", "ArrowUp", "PageUp"].includes(key)) {
       e.preventDefault(); goTo(currentIndex - 1);
     }
   });
 
-  /* --- クリック操作 --- */
+  /* ===== クリック操作（左右 40%） ===== */
   addEventListener("click", (e) => {
     const ratio = e.clientX / innerWidth;
-    if (ratio > 0.6)       goTo(currentIndex + 1);   // 右 40% で次へ
-    else if (ratio < 0.4)  goTo(currentIndex - 1);   // 左 40% で前へ
+    if (ratio > 0.6)       goTo(currentIndex + 1);
+    else if (ratio < 0.4)  goTo(currentIndex - 1);
   });
 
-  /* --- スクロール操作 --- */
+  /* ===== スクロール操作 =====
+     - スライドが長い場合は通常スクロールを許可
+     - 最上部／最下部に達したときのみ自動でページ送り             */
   let lock = false;
   addEventListener("scroll", () => {
     if (lock) return;
-    const atBottom = scrollY + innerHeight >= document.body.scrollHeight - 5;
-    const atTop    = scrollY === 0;
-    if (atBottom) { lock = true; goTo(currentIndex + 1); }
-    else if (atTop) { lock = true; goTo(currentIndex - 1); }
+    const bottomReached = scrollY + innerHeight >= document.body.scrollHeight - 5;
+    const topReached    = scrollY === 0;
+    if (bottomReached) { lock = true; goTo(currentIndex + 1); }
+    else if (topReached) { lock = true; goTo(currentIndex - 1); }
   });
 
-  /* ===== スクロールバーを隠す追加 CSS ===== */
-  const style = document.createElement("style");
-  style.textContent = `
-    /* Hide scrollbars (WebKit & Firefox) */
-    ::-webkit-scrollbar { display: none; }
-    html { scrollbar-width: none; }
-  `;
-  document.head.appendChild(style);
+  /* ===== スクロールバー表示制御 =====
+     - スライドが短いときだけスクロールバーを隠す（美観目的）
+     - 長い場合はスクロールバーを残して通常スクロールを可能にする  */
+  const toggleScrollbar = () => {
+    const needScroll = document.body.scrollHeight > innerHeight + 5;
+    document.documentElement.style.overflowY = needScroll ? "auto" : "hidden";
+  };
+  addEventListener("resize", toggleScrollbar, { passive: true });
+  toggleScrollbar();
 })();
