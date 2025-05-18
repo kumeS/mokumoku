@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>機能開発ロードマップ</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0c0c16 0%, #1a1a2e 100%);
+            color: white;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 3rem;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glowing-border {
+            border: 2px solid #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+        }
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.unite.ai/wp-content/uploads/2024/08/SearchReasoning.webp');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.12;
+            z-index: 1;
+        }
+        .timeline-container {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            height: 350px;
+            overflow-y: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .milestone-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border-left: 3px solid #4facfe;
+            transition: all 0.3s ease;
+        }
+        .milestone-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+        .milestone-date {
+            background: linear-gradient(90deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.1) 100%);
+            border-radius: 4px;
+            display: inline-block;
+            padding: 2px 8px;
+            font-weight: bold;
+            color: #4facfe;
+        }
+        .source-link {
+            color: #4facfe;
+            text-decoration: underline;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        .source-link:hover {
+            color: #00f2fe;
+        }
+        .milestone-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.5rem;
+        }
+        .milestone-table tr {
+            background: rgba(26, 26, 46, 0.4);
+            transition: all 0.3s ease;
+        }
+        .milestone-table tr:hover {
+            background: rgba(26, 26, 46, 0.7);
+            transform: translateX(3px);
+        }
+        .milestone-table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            background: rgba(79, 172, 254, 0.2);
+            color: #fff;
+            font-weight: bold;
+        }
+        .milestone-table th:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        .milestone-table th:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .milestone-table td {
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+        }
+        .milestone-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .status-completed {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+        .status-inprogress {
+            background: rgba(246, 173, 85, 0.2);
+            color: #f6ad55;
+        }
+        .status-planned {
+            background: rgba(113, 128, 150, 0.2);
+            color: #a0aec0;
+        }
+        .asterisk-note {
+            font-style: italic;
+            color: #a0aec0;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            background: rgba(79, 172, 254, 0.15);
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="animated-bg"></div>
+        <div class="slide-content flex flex-col">
+            <!-- Header -->
+            <div class="mb-4">
+                <h1 class="text-5xl font-black mb-2">Genspark <span class="gradient-text">機能開発ロードマップ</span></h1>
+                <p class="text-xl text-gray-300">検索再発明への旅 - 2023年から未来へ</p>
+                <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mt-4"></div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="flex-grow">
+                <!-- Timeline Table -->
+                <div class="mt-4">
+                    <table class="milestone-table">
+                        <thead>
+                            <tr>
+                                <th width="15%">時期</th>
+                                <th width="60%">マイルストーン</th>
+                                <th width="15%">状態</th>
+                                <th width="10%">出典</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2023 Q4</div>
+                                </td>
+                                <td class="font-medium">会社設立・Agentic Engine試作</td>
+                                <td><span class="milestone-status status-completed"><i class="fas fa-check-circle mr-1"></i> 完了</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2024-06-18</div>
+                                </td>
+                                <td class="font-medium">β公開 & Sparkpageローンチ<br>
+                                <span class="text-sm text-gray-400">Seed資金調達 6,000万$</span>
+                                </td>
+                                <td><span class="milestone-status status-completed"><i class="fas fa-check-circle mr-1"></i> 完了</span></td>
+                                <td><a href="https://techcrunch.com/2024/06/18/genspark-is-the-latest-attempt-at-an-ai-powered-search-engine/" class="source-link" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2025-02-21</div>
+                                </td>
+                                <td class="font-medium">Series A 1億$ 調達完了<br>
+                                <span class="text-sm text-gray-400">企業評価額 5.3億$ / 月間ユーザー200万超</span>
+                                </td>
+                                <td><span class="milestone-status status-completed"><i class="fas fa-check-circle mr-1"></i> 完了</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2025-04-24</div>
+                                </td>
+                                <td class="font-medium">Super Agent & AI Slides正式リリース<br>
+                                <span class="text-sm text-gray-400">GAIAベンチマーク 87.8%を達成</span>
+                                </td>
+                                <td><span class="milestone-status status-completed"><i class="fas fa-check-circle mr-1"></i> 完了</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2025-05-15</div>
+                                </td>
+                                <td class="font-medium">AI Sheets β公開<br>
+                                <div class="mt-1">
+                                    <span class="tag">データ収集</span>
+                                    <span class="tag">分析</span>
+                                    <span class="tag">可視化</span>
+                                </div>
+                                </td>
+                                <td><span class="milestone-status status-completed"><i class="fas fa-check-circle mr-1"></i> 完了</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2025-05-15</div>
+                                </td>
+                                <td class="font-medium">Download Agent & AI Drive公開<br>
+                                <span class="text-sm text-gray-400">Webコンテンツ一括DL・自動フォルダ整理</span>
+                                </td>
+                                <td><span class="milestone-status status-completed"><i class="fas fa-check-circle mr-1"></i> 完了</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2025 Q3*</div>
+                                </td>
+                                <td class="font-medium">モバイルアプリ／オフライン対応</td>
+                                <td><span class="milestone-status status-inprogress"><i class="fas fa-spinner mr-1"></i> 進行中</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2025 Q4*</div>
+                                </td>
+                                <td class="font-medium">外部API & サードパーティ統合</td>
+                                <td><span class="milestone-status status-planned"><i class="fas fa-clock mr-1"></i> 計画中</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2026*</div>
+                                </td>
+                                <td class="font-medium">業界特化型エージェント展開<br>
+                                <span class="text-sm text-gray-400">医療・法務・金融セクター向け</span>
+                                </td>
+                                <td><span class="milestone-status status-planned"><i class="fas fa-clock mr-1"></i> 計画中</span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="milestone-date">2027*</div>
+                                </td>
+                                <td class="font-medium">"パーソナルAI標準"を目指しマルチモーダル完備<br>
+                                <span class="text-sm text-gray-400">音声・画像・動画の統合インタフェース</span>
+                                </td>
+                                <td><span class="milestone-status status-planned"><i class="fas fa-clock mr-1"></i> 計画中</span></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="asterisk-note mt-2">
+                        <i class="fas fa-info-circle text-blue-400 mr-1"></i> *印は公式コメントと業界分析に基づく見込み
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-6 flex justify-between items-center">
+                <div class="text-sm text-gray-400 italic">
+                    未来の検索体験を創造する
+                </div>
+                <div class="text-right">
+                    <span class="px-4 py-1 rounded-full glowing-border text-sm">スライド 5/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'dark',
+                themeVariables: {
+                    primaryColor: '#4facfe',
+                    primaryTextColor: '#fff',
+                    primaryBorderColor: '#4facfe',
+                    lineColor: '#4facfe',
+                    secondaryColor: '#1a1a2e',
+                    tertiaryColor: '#0c0c16'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gensparkスーパーエージェント</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0c0c16 0%, #1a1a2e 100%);
+            color: white;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 3rem;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glowing-border {
+            border: 2px solid #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+        }
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.solulab.com/wp-content/uploads/2024/09/Build-AI-Agent-System.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        .feature-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.2);
+        }
+        .agent-process {
+            position: relative;
+            height: 160px;
+        }
+        .agent-step {
+            position: relative;
+            width: 180px;
+            height: 80px;
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid rgba(79, 172, 254, 0.5);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .agent-step:hover {
+            background: rgba(79, 172, 254, 0.2);
+            transform: translateY(-5px);
+        }
+        .tag {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            color: #0c0c16;
+            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        .performance-chart-container {
+            position: relative;
+            height: 180px;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        .capability-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+            border-radius: 12px;
+            margin-right: 16px;
+        }
+        .icon {
+            font-size: 24px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .arrow {
+            position: absolute;
+            top: 40px;
+            font-size: 24px;
+            color: #4facfe;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="animated-bg"></div>
+        <div class="slide-content flex flex-col">
+            <!-- Header -->
+            <div class="mb-4">
+                <h1 class="text-5xl font-black mb-2">Genspark <span class="gradient-text">スーパーAIエージェント</span></h1>
+                <p class="text-xl text-gray-300">自律型エージェントによる次世代AIエクスペリエンス</p>
+                <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mt-4"></div>
+            </div>
+            
+            <!-- Agent Process Flow -->
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold mb-3">Mixture-of-Agents構成 <span class="tag">2025-04正式版</span></h2>
+                <div class="agent-process flex justify-between">
+                    <div class="agent-step">
+                        <i class="fas fa-brain text-2xl mb-2 text-blue-400"></i>
+                        <div class="text-center">
+                            <h3 class="font-bold">思考</h3>
+                            <p class="text-xs text-gray-400">問題の理解・分析</p>
+                        </div>
+                    </div>
+                    <i class="arrow fas fa-long-arrow-alt-right" style="left: 210px;"></i>
+                    <div class="agent-step" style="left: 50px;">
+                        <i class="fas fa-project-diagram text-2xl mb-2 text-blue-400"></i>
+                        <div class="text-center">
+                            <h3 class="font-bold">計画</h3>
+                            <p class="text-xs text-gray-400">戦略策定・リソース配分</p>
+                        </div>
+                    </div>
+                    <i class="arrow fas fa-long-arrow-alt-right" style="left: 450px;"></i>
+                    <div class="agent-step" style="left: 100px;">
+                        <i class="fas fa-cogs text-2xl mb-2 text-blue-400"></i>
+                        <div class="text-center">
+                            <h3 class="font-bold">実行</h3>
+                            <p class="text-xs text-gray-400">自律的なタスク完遂</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Performance Metrics -->
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold mb-3">性能指標</h2>
+                <div class="performance-chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Capabilities -->
+            <div>
+                <h2 class="text-2xl font-bold mb-3">主な能力</h2>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="feature-card p-4 flex">
+                        <div class="capability-icon">
+                            <i class="fas fa-plane-departure icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">旅行プラン作成 & 予約</h3>
+                            <p class="text-sm text-gray-400">スケジュール最適化と自動予約機能</p>
+                        </div>
+                    </div>
+                    <div class="feature-card p-4 flex">
+                        <div class="capability-icon">
+                            <i class="fas fa-file-code icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">コンテンツ一括生成</h3>
+                            <p class="text-sm text-gray-400">Web/画像/動画/サイト/スライド</p>
+                        </div>
+                    </div>
+                    <div class="feature-card p-4 flex">
+                        <div class="capability-icon">
+                            <i class="fas fa-code-branch icon"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">思考プロセス可視化</h3>
+                            <p class="text-sm text-gray-400">ツール呼び出しと判断の透明性確保</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-6 flex justify-between items-center">
+                <div class="text-sm text-gray-400 italic">
+                    高度なAIエージェントによる業務革新
+                </div>
+                <div class="text-right">
+                    <span class="px-4 py-1 rounded-full glowing-border text-sm">スライド 3/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            const gradientFill = ctx.createLinearGradient(0, 0, 0, 160);
+            gradientFill.addColorStop(0, 'rgba(79, 172, 254, 0.5)');
+            gradientFill.addColorStop(1, 'rgba(79, 172, 254, 0.1)');
+            
+            const labels = ['Genspark', '競合A', '競合B', '競合C', '競合D'];
+            const data = [87.8, 75.2, 64.5, 72.1, 69.7];
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'GAIAベンチマークスコア (%)',
+                        data: data,
+                        backgroundColor: [
+                            gradientFill,
+                            'rgba(255, 255, 255, 0.2)',
+                            'rgba(255, 255, 255, 0.2)',
+                            'rgba(255, 255, 255, 0.2)',
+                            'rgba(255, 255, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            '#4facfe',
+                            'rgba(255, 255, 255, 0.5)',
+                            'rgba(255, 255, 255, 0.5)',
+                            'rgba(255, 255, 255, 0.5)',
+                            'rgba(255, 255, 255, 0.5)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(26, 26, 46, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#4facfe',
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            displayColors: false,
+                            padding: 10,
+                            cornerRadius: 6
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

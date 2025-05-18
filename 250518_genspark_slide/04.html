@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIスライド機能</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0c0c16 0%, #1a1a2e 100%);
+            color: white;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 3rem;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glowing-border {
+            border: 2px solid #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+        }
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://imgcdn.stablediffusionweb.com/2024/12/19/54657528-9daa-47f7-b51d-ed6767fff78f.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        .feature-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.2);
+        }
+        .process-flow {
+            position: relative;
+            margin-top: 1.5rem;
+        }
+        .process-step {
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid rgba(79, 172, 254, 0.4);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .process-step:hover {
+            background: rgba(79, 172, 254, 0.2);
+            transform: translateY(-3px);
+        }
+        .step-number {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            color: #0c0c16;
+            font-weight: bold;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+        }
+        .chart-container {
+            height: 240px;
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+        .file-format {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(79, 172, 254, 0.15);
+            border-radius: 5px;
+            margin: 0 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .file-format:hover {
+            background: rgba(79, 172, 254, 0.25);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="animated-bg"></div>
+        <div class="slide-content flex flex-col">
+            <!-- Header -->
+            <div class="mb-4">
+                <h1 class="text-5xl font-black mb-2">Genspark <span class="gradient-text">AIスライド機能</span></h1>
+                <p class="text-xl text-gray-300">プレゼンテーション作成を革新するAI技術</p>
+                <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mt-4"></div>
+            </div>
+            
+            <!-- Main Feature Grid -->
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <!-- Left Column: Features -->
+                <div class="flex flex-col space-y-4">
+                    <!-- PDF・Word → プレゼン自動生成 -->
+                    <div class="feature-card p-4">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">
+                                <i class="fas fa-file-import text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold gradient-text">PDF・Word → プレゼン自動生成</h3>
+                                <p class="text-sm text-gray-300 mt-1">要点抽出・章立て・デザイン・画像配置を数分で完了</p>
+                                
+                                <!-- Process Flow -->
+                                <div class="process-flow grid grid-cols-4 gap-2 mt-3">
+                                    <div class="process-step p-2 flex flex-col items-center text-center">
+                                        <div class="flex items-center mb-1">
+                                            <span class="step-number">1</span>
+                                            <span class="text-xs font-bold">ファイル入力</span>
+                                        </div>
+                                        <i class="fas fa-file text-blue-400 text-xl mb-1"></i>
+                                        <span class="text-xs text-gray-400">ドキュメント</span>
+                                    </div>
+                                    <div class="process-step p-2 flex flex-col items-center text-center">
+                                        <div class="flex items-center mb-1">
+                                            <span class="step-number">2</span>
+                                            <span class="text-xs font-bold">分析</span>
+                                        </div>
+                                        <i class="fas fa-brain text-blue-400 text-xl mb-1"></i>
+                                        <span class="text-xs text-gray-400">AI処理</span>
+                                    </div>
+                                    <div class="process-step p-2 flex flex-col items-center text-center">
+                                        <div class="flex items-center mb-1">
+                                            <span class="step-number">3</span>
+                                            <span class="text-xs font-bold">生成</span>
+                                        </div>
+                                        <i class="fas fa-magic text-blue-400 text-xl mb-1"></i>
+                                        <span class="text-xs text-gray-400">スライド構築</span>
+                                    </div>
+                                    <div class="process-step p-2 flex flex-col items-center text-center">
+                                        <div class="flex items-center mb-1">
+                                            <span class="step-number">4</span>
+                                            <span class="text-xs font-bold">出力</span>
+                                        </div>
+                                        <i class="fas fa-file-powerpoint text-blue-400 text-xl mb-1"></i>
+                                        <span class="text-xs text-gray-400">完成版</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- スマートレイアウト -->
+                    <div class="feature-card p-4">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">
+                                <i class="fas fa-paint-brush text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold gradient-text">スマートレイアウト</h3>
+                                <p class="text-sm text-gray-300 mt-1">ブランドカラー適用やテンプレート自動選択</p>
+                                
+                                <div class="mt-3 flex space-x-2">
+                                    <div class="flex-1 bg-opacity-40 bg-blue-900 p-2 rounded-lg flex flex-col items-center">
+                                        <i class="fas fa-palette text-blue-400 mb-1"></i>
+                                        <span class="text-xs font-bold">カラーマッチング</span>
+                                    </div>
+                                    <div class="flex-1 bg-opacity-40 bg-blue-900 p-2 rounded-lg flex flex-col items-center">
+                                        <i class="fas fa-th-large text-blue-400 mb-1"></i>
+                                        <span class="text-xs font-bold">レイアウト最適化</span>
+                                    </div>
+                                    <div class="flex-1 bg-opacity-40 bg-blue-900 p-2 rounded-lg flex flex-col items-center">
+                                        <i class="fas fa-images text-blue-400 mb-1"></i>
+                                        <span class="text-xs font-bold">画像バランス</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 研究補完 -->
+                    <div class="feature-card p-4">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">
+                                <i class="fas fa-search text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold gradient-text">研究補完</h3>
+                                <p class="text-sm text-gray-300 mt-1">不足情報を信頼ソースから自動で引用・脚注生成</p>
+                                
+                                <div class="bg-opacity-30 bg-blue-900 p-2 rounded-lg mt-2 flex items-center">
+                                    <i class="fas fa-quote-left text-blue-400 mr-2"></i>
+                                    <div class="text-xs">
+                                        <div class="font-bold">自動参考文献管理</div>
+                                        <div class="text-gray-400">学術形式（APA、MLA、Chicago）対応</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Output & Time Saving -->
+                <div class="space-y-4">
+                    <!-- 出力形式 -->
+                    <div class="feature-card p-4">
+                        <h3 class="text-xl font-bold gradient-text mb-2">出力形式</h3>
+                        <div class="flex justify-center space-x-6 my-4">
+                            <div class="text-center">
+                                <i class="fas fa-file-powerpoint text-5xl text-blue-400 mb-2"></i>
+                                <div class="file-format">
+                                    PowerPoint
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-file-pdf text-5xl text-blue-400 mb-2"></i>
+                                <div class="file-format">
+                                    PDF
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-opacity-30 bg-blue-900 p-3 rounded-lg mt-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-blue-400 mr-2"></i>
+                                <span class="text-sm">あらゆるデバイスで完璧な互換性</span>
+                            </div>
+                            <div class="flex items-center mt-2">
+                                <i class="fas fa-check-circle text-blue-400 mr-2"></i>
+                                <span class="text-sm">後編集が容易なレイヤー構造</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 時間短縮効果 -->
+                    <div class="feature-card p-4">
+                        <h3 class="text-xl font-bold gradient-text mb-3">時間短縮効果</h3>
+                        <p class="text-sm text-gray-300 mb-3">従来のプレゼン作成プロセスと比較した時間削減</p>
+                        <div class="chart-container">
+                            <canvas id="timeComparisonChart"></canvas>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <span class="inline-block bg-blue-900 bg-opacity-50 px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-bolt text-yellow-400 mr-1"></i>
+                                <span class="font-bold">96%</span> の時間短縮を実現
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-6 flex justify-between items-center">
+                <div class="text-sm text-gray-400 italic">
+                    プロフェッショナルなプレゼンを、だれでも簡単に
+                </div>
+                <div class="text-right">
+                    <span class="px-4 py-1 rounded-full glowing-border text-sm">スライド 4/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('timeComparisonChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['従来の方法', 'Genspark AI Slides'],
+                    datasets: [{
+                        label: '所要時間（分）',
+                        data: [300, 10],
+                        backgroundColor: [
+                            'rgba(255, 255, 255, 0.3)',
+                            'rgba(79, 172, 254, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 255, 255, 0.5)',
+                            'rgba(79, 172, 254, 1)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(26, 26, 46, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#4facfe',
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            displayColors: false,
+                            padding: 10,
+                            cornerRadius: 6,
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const hours = Math.floor(value / 60);
+                                    const minutes = value % 60;
+                                    return hours > 0 ? 
+                                        `所要時間: ${hours}時間 ${minutes}分` : 
+                                        `所要時間: ${minutes}分`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)',
+                                callback: function(value) {
+                                    const hours = Math.floor(value / 60);
+                                    const minutes = value % 60;
+                                    return hours > 0 ? 
+                                        `${hours}h ${minutes}m` : 
+                                        `${minutes}m`;
+                                }
+                            },
+                            max: 360
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genspark基本機能とエージェント機能</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0c0c16 0%, #1a1a2e 100%);
+            color: white;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 3rem;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glowing-border {
+            border: 2px solid #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+        }
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://insights.manageengine.com/wp-content/uploads/2025/01/ai-agents.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        .feature-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.2);
+        }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+            border-radius: 12px;
+            margin-right: 16px;
+        }
+        .icon {
+            font-size: 24px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tag {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            color: #0c0c16;
+            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="animated-bg"></div>
+        <div class="slide-content flex flex-col">
+            <!-- Header -->
+            <div class="mb-6">
+                <h1 class="text-5xl font-black mb-2">基本機能と<span class="gradient-text">エージェント機能</span></h1>
+                <p class="text-xl text-gray-300">最先端AI技術による次世代検索体験</p>
+                <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 mt-4"></div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <!-- Feature 1: 多段階検索 & Deep Research -->
+                <div class="feature-card p-5 flex">
+                    <div class="feature-icon">
+                        <i class="fas fa-search-plus icon"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">多段階検索 & Deep Research</h2>
+                        <p class="text-gray-300 mb-3">複合的な検索技術による深い情報探索</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">80+専用ツール</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">複数LLM活用</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">自動調査</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">要約・検証機能</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2: AI Copilot -->
+                <div class="feature-card p-5 flex">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot icon"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">AI Copilot</h2>
+                        <p class="text-gray-300 mb-3">インテリジェントな会話型アシスタント</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">対話型インターフェース</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">自然な追質問</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">コンテキスト理解</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">情報再構成</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 3: AI Sheets -->
+                <div class="feature-card p-5 flex">
+                    <div class="feature-icon">
+                        <i class="fas fa-table icon"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">AI Sheets <span class="tag">2025-05公開</span></h2>
+                        <p class="text-gray-300 mb-3">自然言語でデータ処理を自動化</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">自動データ収集</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">高度分析機能</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">データ可視化</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">自然言語インターフェース</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 4: AI Drive & Download Agent -->
+                <div class="feature-card p-5 flex">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-download-alt icon"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">AI Drive & Download Agent <span class="tag">2025-05実装</span></h2>
+                        <p class="text-gray-300 mb-3">Webからの情報収集・整理を効率化</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">一括ダウンロード</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">自動フォルダ整理</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">メタデータ管理</span>
+                            <span class="bg-blue-900 bg-opacity-50 text-xs px-2 py-1 rounded-full">プロンプト駆動</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-6 flex justify-between items-center">
+                <div class="text-sm text-gray-400 italic">
+                    AIを活用した新しいワークフローを実現
+                </div>
+                <div class="text-right">
+                    <span class="px-4 py-1 rounded-full glowing-border text-sm">スライド 2/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
