@@ -1,5 +1,11 @@
 # mokumoku
 
+## 一覧
+
+- [250518_genspark_slide](https://kumes.github.io/mokumoku/250518_genspark_slide)
+
+
+
 ## AI スライド活用
 
 1. [ChatGPT](https://chatgpt.com/) の o3 で、基本的な情報を調査してまとめる。
