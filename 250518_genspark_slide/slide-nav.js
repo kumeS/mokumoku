@@ -38,8 +38,7 @@
 if (!document.querySelector('meta[name="viewport"]')) {
   const meta = document.createElement("meta");
   meta.name = "viewport";
-  // ここを修正
-  meta.content = "width=device-width, initial-scale=1, maximum-scale=5.0, user-scalable=yes";
+  meta.content = "width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.2, user-scalable=yes";
   document.head.appendChild(meta);
 }
 
