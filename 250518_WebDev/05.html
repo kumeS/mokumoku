@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゼロから公開までの超ざっくりロードマップ</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            color: #333;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(90deg, #7F7FD5 0%, #86A8E7 50%, #91EAE4 100%);
+            padding: 20px 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .intro-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(127, 127, 213, 0.15);
+            margin: 20px 40px 20px;
+            padding: 20px 30px;
+            position: relative;
+            z-index: 10;
+        }
+        .content-area {
+            padding: 20px 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .roadmap-container {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        .roadmap-column {
+            flex: 1;
+        }
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        .step-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .step-body {
+            padding: 0 20px 20px;
+        }
+        .code-block {
+            background: #282a36;
+            color: #f8f8f2;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 10px 0;
+            position: relative;
+        }
+        .code-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #bd93f9;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .tip-card {
+            background: linear-gradient(135deg, #E3FDF5 0%, #FFE6FA 100%);
+            border-radius: 16px;
+            padding: 15px 25px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .next-step-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .next-step-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .next-step-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .next-step-icon {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        .hosting-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .hosting-badge {
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .ai-card {
+            background: linear-gradient(135deg, #FCE38A 0%, #F38181 100%);
+            border-radius: 16px;
+            padding: 15px 25px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .closing-message {
+            text-align: center;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="text-4xl font-bold text-white">ゼロから公開までの超ざっくりロードマップ</h1>
+        </div>
+        
+        <div class="intro-card">
+            <p class="text-xl font-medium text-indigo-700">
+                <i class="fas fa-map-signs text-indigo-500 mr-2"></i>
+                <strong>ひと言イントロ</strong>：超初心者向け、「触ったことがない」人向けの最短コース。
+            </p>
+        </div>
+        
+        <div class="content-area">
+            <div class="roadmap-container">
+                <!-- First Column -->
+                <div class="roadmap-column">
+                    <!-- Step 1 & 2 -->
+                    <div class="step-card">
+                        <div class="step-header bg-gradient-to-r from-blue-50 to-indigo-50">
+                            <div class="step-number bg-blue-500 text-white">1</div>
+                            <h3 class="font-bold text-blue-800">index.html を書いて保存</h3>
+                        </div>
+                        <div class="step-body">
+                            <div class="code-block relative">
+                                <div class="code-label">index.html</div>
+                                <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;はじめてのページ&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;こんにちは！&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header bg-gradient-to-r from-purple-50 to-pink-50">
+                            <div class="step-number bg-purple-500 text-white">2</div>
+                            <h3 class="font-bold text-purple-800">ブラウザでダブルクリック</h3>
+                        </div>
+                        <div class="step-body">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-mouse-pointer text-2xl text-purple-600"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-700">ファイルをダブルクリックするだけで、ブラウザに表示されます</p>
+                                    <p class="text-sm text-purple-600 mt-1">すぐに結果が確認できます！</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Column -->
+                <div class="roadmap-column">
+                    <!-- Step 3 & 4 -->
+                    <div class="step-card">
+                        <div class="step-header bg-gradient-to-r from-green-50 to-teal-50">
+                            <div class="step-number bg-green-500 text-white">3</div>
+                            <h3 class="font-bold text-green-800">Node.js を入れて簡易サーバー</h3>
+                        </div>
+                        <div class="step-body">
+                            <div class="flex items-center mb-3">
+                                <i class="fab fa-node-js text-2xl text-green-600 mr-3"></i>
+                                <a href="https://nodejs.org/" class="text-green-600 underline">nodejs.org</a>
+                                <span class="ml-2 text-gray-600">からダウンロード・インストール</span>
+                            </div>
+                            
+                            <div class="code-block relative">
+                                <div class="code-label">ターミナル / コマンドプロンプト</div>
+                                <pre>npx serve</pre>
+                            </div>
+                            
+                            <div class="text-sm bg-green-50 p-3 rounded-lg mt-2">
+                                <i class="fas fa-mobile-alt text-green-500 mr-1"></i>
+                                <span class="text-green-700">メモ: スマホ実機でも表示できる</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header bg-gradient-to-r from-yellow-50 to-orange-50">
+                            <div class="step-number bg-yellow-500 text-white">4</div>
+                            <h3 class="font-bold text-yellow-800">無料ホスティングサービスにアップ</h3>
+                        </div>
+                        <div class="step-body">
+                            <div class="hosting-options">
+                                <div class="hosting-badge bg-gray-800 text-white">
+                                    <i class="fab fa-github mr-2"></i>GitHub Pages
+                                </div>
+                                <div class="hosting-badge bg-red-500 text-white">
+                                    <i class="fas fa-server mr-2"></i>Netlify
+                                </div>
+                                <div class="hosting-badge bg-blue-600 text-white">
+                                    <i class="fas fa-rocket mr-2"></i>Vercel
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700 mt-3">
+                                リポジトリを連携するだけで簡単公開！あなたの作品が世界中で見られます
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 5 -->
+            <div class="step-card">
+                <div class="step-header bg-gradient-to-r from-red-50 to-pink-50">
+                    <div class="step-number bg-red-500 text-white">5</div>
+                    <h3 class="font-bold text-red-800">より上級者に近づくために</h3>
+                </div>
+                <div class="step-body">
+                    <div class="next-step-list">
+                        <div class="next-step-item">
+                            <div class="next-step-icon bg-blue-100 text-blue-600">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">CSSフレームワーク</h4>
+                                <p class="text-xs text-gray-600">見た目を洗練させる</p>
+                            </div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="next-step-icon bg-yellow-100 text-yellow-600">
+                                <i class="fab fa-js-square"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">JavaScript</h4>
+                                <p class="text-xs text-gray-600">フォーム送信・地図表示</p>
+                            </div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="next-step-icon bg-purple-100 text-purple-600">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">PWA化</h4>
+                                <p class="text-xs text-gray-600">アプリのような体験を提供</p>
+                            </div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="next-step-icon bg-green-100 text-green-600">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">WebAssembly</h4>
+                                <p class="text-xs text-gray-600">高速な機能を実装</p>
+                            </div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="next-step-icon bg-indigo-100 text-indigo-600">
+                                <i class="fas fa-code-branch"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Gitでバージョン管理</h4>
+                                <p class="text-xs text-gray-600">チーム開発の第一歩</p>
+                            </div>
+                        </div>
+                        <div class="next-step-item">
+                            <div class="next-step-icon bg-pink-100 text-pink-600">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">コミュニティに参加</h4>
+                                <p class="text-xs text-gray-600">仲間と学び合おう</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-card">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-red-500 flex items-center justify-center text-white">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="ml-3 text-lg font-bold text-red-800">AIエージェントを活用しよう</h3>
+                </div>
+                <p class="text-gray-800 mt-2">
+                    AIツールを使うことで、貴方のウェブ開発が一気に加速します。コードの説明や修正、デザインのアイデアなど、困ったときは積極的に活用しましょう！
+                </p>
+            </div>
+            
+            <div class="closing-message">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-flag-checkered mr-2"></i>
+                    まずは、あなたが作成した、HTMLの1ページを公開しましょう
+                </h3>
+                <p class="text-gray-700">公開するまでのステップで、学びが一気に深まります！</p>
+            </div>
+        </div>
+    </div>
+    <script defer src="./slide-nav.js"></script>
+</body>
+</html>

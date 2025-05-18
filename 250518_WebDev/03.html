@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作る人の世界：Node.jsと開発ツール</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            color: #333;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
+            padding: 20px 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .intro-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(136, 108, 228, 0.15);
+            margin: 20px 40px 20px;
+            padding: 20px 30px;
+            position: relative;
+            z-index: 10;
+        }
+        .content-area {
+            padding: 0 40px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .dev-environment {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-top: 20px;
+        }
+        .browser-layer {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-radius: 16px 16px 0 0;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+        }
+        .browser-content {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .tech-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 12px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .connector {
+            height: 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .connector::after {
+            content: "";
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #BBDEFB 0%, #5C6BC0 100%);
+            position: absolute;
+        }
+        .connector-label {
+            background-color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            font-weight: bold;
+            color: #5C6BC0;
+        }
+        .dev-layer {
+            background: linear-gradient(135deg, #E8EAF6 0%, #C5CAE9 100%);
+            border-radius: 0 0 16px 16px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 4;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .tool-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        .key-point {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+            border-radius: 16px;
+            padding: 15px 25px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="text-4xl font-bold text-white">作る人の世界：Node.jsと開発ツール</h1>
+        </div>
+        
+        <div class="intro-card">
+            <p class="text-xl font-medium text-purple-700">
+                <i class="fas fa-tools text-yellow-500 mr-2"></i>
+                <strong>ひと言イントロ</strong>：「実際に開発する側」のツールを知ろう。全体像を一枚で理解。
+            </p>
+        </div>
+        
+        <div class="content-area">
+            <div class="dev-environment">
+                <div class="browser-layer">
+                    <h3 class="text-xl font-bold text-blue-800 flex items-center">
+                        <i class="fas fa-globe mr-2"></i>誰かが開く画面（ブラウザ）
+                    </h3>
+                    <div class="browser-content">
+                        <div class="tech-card bg-blue-50">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-code text-blue-600 text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-blue-700">HTML</h4>
+                            <p class="text-sm text-center text-gray-600">骨組み・フレーム</p>
+                        </div>
+                        <div class="tech-card bg-pink-50">
+                            <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-paint-brush text-pink-600 text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-pink-700">CSS</h4>
+                            <p class="text-sm text-center text-gray-600">見た目を保つ</p>
+                        </div>
+                        <div class="tech-card bg-yellow-50">
+                            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-cogs text-yellow-600 text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-yellow-700">JavaScript</h4>
+                            <p class="text-sm text-center text-gray-600">インタラクティブな動作性</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="connector">
+                    <div class="connector-label">
+                        <i class="fas fa-arrow-down mr-1"></i>開発者向けのツール
+                    </div>
+                </div>
+                
+                <div class="dev-layer">
+                    <h3 class="text-xl font-bold text-indigo-800 flex items-center">
+                        <i class="fas fa-laptop-code mr-2"></i>開発環境
+                    </h3>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <div class="tool-icon bg-purple-100 text-purple-600">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4 class="font-bold text-purple-700">コードを書く道具</h4>
+                            <p class="text-sm text-gray-600">VS Code など</p>
+                            <div class="mt-2 text-xs bg-purple-50 p-2 rounded-lg">
+                                開発者が使いやすいテキストエディタ
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon bg-red-100 text-red-600">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <h4 class="font-bold text-red-700">依存ライブラリの管理倉庫</h4>
+                            <p class="text-sm font-bold text-red-600">npm</p>
+                            <div class="mt-2 text-xs bg-red-50 p-2 rounded-lg">
+                                Node Package Manager<br>
+                                必要な部品を集める場所
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon bg-green-100 text-green-600">
+                                <i class="fab fa-node-js"></i>
+                            </div>
+                            <h4 class="font-bold text-green-700">Webの実行エンジン</h4>
+                            <p class="text-sm font-bold text-green-600">Node.js</p>
+                            <div class="mt-2 text-xs bg-green-50 p-2 rounded-lg">
+                                ブラウザ外でJSを動かす環境
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon bg-blue-100 text-blue-600">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4 class="font-bold text-blue-700">変換＆高速配信</h4>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">Vite</span>
+                                <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">webpack</span>
+                                <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">esbuild</span>
+                            </div>
+                            <div class="mt-2 text-xs bg-blue-50 p-2 rounded-lg">
+                                開発中の自動更新・本番向け最適化
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon bg-pink-100 text-pink-600">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h4 class="font-bold text-pink-700">デザインお助けツール</h4>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                <span class="bg-pink-50 text-pink-600 text-xs px-2 py-1 rounded-full">Figma</span>
+                                <span class="bg-pink-50 text-pink-600 text-xs px-2 py-1 rounded-full">Canva</span>
+                                <span class="bg-pink-50 text-pink-600 text-xs px-2 py-1 rounded-full">Tailwind</span>
+                            </div>
+                            <div class="mt-2 text-xs bg-pink-50 p-2 rounded-lg">
+                                見た目を作るための道具
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <h3 class="text-lg font-bold text-orange-800 mb-1 flex items-center">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>覚え方のポイント
+                </h3>
+                <p class="text-gray-800">
+                    <span class="font-bold">「上段＝ブラウザで動くもの / 下段＝作るのを助けるツール」。最初は npm → Node.js → "開発サーバー"を動かす流れから体験すると理解が早い</span><br>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script defer src="./slide-nav.js"></script>
+</body>
+</html>

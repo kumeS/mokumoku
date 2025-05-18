@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>そもそもWebページはどう見えるの？</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            color: #333;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
+            padding: 20px 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .intro-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(136, 108, 228, 0.15);
+            margin: 20px 40px 20px;
+            padding: 20px 30px;
+            position: relative;
+            z-index: 10;
+        }
+        .content-area {
+            padding: 20px 40px;
+            flex-grow: 1;
+            display: flex;
+            gap: 30px;
+        }
+        .feature-box {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .process-item {
+            text-align: center;
+            width: 180px;
+            position: relative;
+        }
+        .process-item:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 30px;
+            right: -50px;
+            width: 50px;
+            height: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='20' viewBox='0 0 50 20'%3E%3Cpath d='M0 10 L40 10 L30 0 M40 10 L30 20' stroke='%234776E6' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+        }
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, #4776E6, #8E54E9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .point-card {
+            background: linear-gradient(135deg, #FFF6B7 0%, #F9D959 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="text-4xl font-bold text-white">そもそも Web ページはどう見えるの？</h1>
+        </div>
+        
+        <div class="intro-card">
+            <p class="text-xl font-medium text-purple-700">
+                <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                <strong>ひと言イントロ</strong>：まずは「ブラウザの中で何が起きているか？」をざっくり把握。
+            </p>
+        </div>
+        
+        <div class="content-area">
+            <div class="w-3/5">
+                <div class="feature-box">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-700">サーバーから届いたファイルを順に解析 → 画面を描画</h2>
+                    
+                    <div class="process-flow">
+                        <div class="process-item">
+                            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto">
+                                <i class="fas fa-link text-blue-600 text-2xl"></i>
+                            </div>
+                            <p class="font-bold mt-2 text-blue-600">URL</p>
+                        </div>
+                        
+                        <div class="process-item">
+                            <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto">
+                                <i class="fas fa-globe text-purple-600 text-2xl"></i>
+                            </div>
+                            <p class="font-bold mt-2 text-purple-600">ブラウザ</p>
+                        </div>
+                        
+                        <div class="process-item">
+                            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto">
+                                <i class="fas fa-desktop text-green-600 text-2xl"></i>
+                            </div>
+                            <p class="font-bold mt-2 text-green-600">画面表示</p>
+                        </div>
+                    </div>
+                    
+                    <div class="point-card">
+                        <h3 class="text-xl font-bold text-orange-800 mb-2">
+                            <i class="fas fa-star mr-2"></i>ポイント
+                        </h3>
+                        <p class="text-lg">仕組みは意外とシンプル。「土台はたった3種類のファイル（HTML、CSS、JS）」を覚えるだけでOK</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-2/5">
+                <div class="feature-box h-full">
+                    <h2 class="text-2xl font-bold mb-6 text-purple-700">昔も今も主役は "3 兄弟"</h2>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-orange-100 rounded-full p-3 mr-4">
+                                <i class="fab fa-html5 text-orange-500 text-3xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-orange-500">HTML</h3>
+                                <p class="text-gray-600">文章と骨組み = フレーム </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-100 rounded-full p-3 mr-4">
+                                <i class="fab fa-css3-alt text-blue-500 text-3xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-blue-500">CSS</h3>
+                                <p class="text-gray-600">色・レイアウト = 見た目</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <div class="bg-yellow-100 rounded-full p-3 mr-4">
+                                <i class="fab fa-js text-yellow-500 text-3xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-yellow-500">JavaScript (JS)</h3>
+                                <p class="text-gray-600">動き・対話 = インタラクティブ </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script defer src="./slide-nav.js"></script>
+</body>
+</html>

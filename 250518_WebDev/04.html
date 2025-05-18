@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Webアプリ"を実現するPWAとWebAssembly</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            color: #333;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(90deg, #FF8008 0%, #FFC837 100%);
+            padding: 20px 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .intro-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.15);
+            margin: 20px 40px 20px;
+            padding: 20px 30px;
+            position: relative;
+            z-index: 10;
+        }
+        .content-area {
+            padding: 20px 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-solutions {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        .solution-card {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-header-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .card-body {
+            padding: 0 20px 20px;
+            flex-grow: 1;
+        }
+        .feature-list {
+            margin-top: 15px;
+        }
+        .feature-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        .examples-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .example-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .key-point {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+            border-radius: 16px;
+            padding: 15px 25px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="text-4xl font-bold text-white">"Webアプリ"を実現するPWAとWebAssembly</h1>
+        </div>
+        
+        <div class="intro-card">
+            <p class="text-xl font-medium text-orange-700">
+                <i class="fas fa-mobile-alt text-yellow-500 mr-2"></i>
+                <strong>ひと言イントロ</strong>：現在、Webが "スマホのアプリ並み" に感じるカラクリ。
+            </p>
+        </div>
+        
+        <div class="content-area">
+            <div class="app-solutions">
+                <!-- PWA Section -->
+                <div class="solution-card">
+                    <div class="card-header bg-gradient-to-r from-blue-50 to-indigo-50">
+                        <div>
+                            <h2 class="text-xl font-bold text-blue-800">PWA</h2>
+                            <p class="text-sm text-blue-600">Progressive Web App</p>
+                        </div>
+                        <div class="card-header-icon bg-blue-100 text-blue-600">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-1 text-gray-700 font-medium">
+                            <span class="text-blue-700 font-bold">PWA三本柱</span>でWebをアプリ化
+                        </div>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item bg-blue-50">
+                                <div class="feature-icon bg-blue-100 text-blue-600">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-blue-700">Service Worker</h4>
+                                    <p class="text-sm text-gray-600">オフラインでも表示 & Push通知</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item bg-purple-50">
+                                <div class="feature-icon bg-purple-100 text-purple-600">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-purple-700">Web App Manifest</h4>
+                                    <p class="text-sm text-gray-600">ホーム画面アイコン & 全画面起動</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item bg-teal-50">
+                                <div class="feature-icon bg-teal-100 text-teal-600">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-teal-700">キャッシュ/IndexedDB</h4>
+                                    <p class="text-sm text-gray-600">大容量データをローカル保存</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pb-2">
+                            <div class="text-sm font-medium text-gray-700 mb-2">PWAの具体例：</div>
+                            <div class="examples-row">
+                                <span class="example-tag bg-blue-100 text-blue-700">
+                                    <i class="fab fa-twitter mr-1"></i>Twitter Lite
+                                </span>
+                                <span class="example-tag bg-purple-100 text-purple-700">
+                                    <i class="fas fa-sticky-note mr-1"></i>Notion
+                                </span>
+                                <span class="example-tag bg-green-100 text-green-700">
+                                    <i class="fas fa-music mr-1"></i>Spotify
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WebAssembly Section -->
+                <div class="solution-card">
+                    <div class="card-header bg-gradient-to-r from-green-50 to-teal-50">
+                        <div>
+                            <h2 class="text-xl font-bold text-green-800">WebAssembly</h2>
+                            <p class="text-sm text-green-600">(Wasm)</p>
+                        </div>
+                        <div class="card-header-icon bg-green-100 text-green-600">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-2 p-4 bg-green-50 rounded-lg">
+                            <p class="font-medium text-green-800">
+                                C/C++やRustなどを<span class="font-bold text-green-900">超高速バイトコード</span>に変換<br>
+                                →ブラウザでネイティブ並み実行
+                            </p>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h4 class="font-bold text-green-700 flex items-center">
+                                <i class="fas fa-rocket mr-2 text-green-500"></i>
+                                WebAssemblyができること
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <div class="bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-paint-brush text-pink-500 mr-1"></i>
+                                    <span class="text-sm">高速な画像処理</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-gamepad text-indigo-500 mr-1"></i>
+                                    <span class="text-sm">ゲームエミュレーター</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-brain text-purple-500 mr-1"></i>
+                                    <span class="text-sm">ブラウザ内AI処理</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-calculator text-blue-500 mr-1"></i>
+                                    <span class="text-sm">複雑な計算処理</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pb-2">
+                            <div class="text-sm font-medium text-gray-700 mb-2">利用例：</div>
+                            <div class="examples-row">
+                                <span class="example-tag bg-purple-100 text-purple-700">
+                                    <i class="fab fa-figma mr-1"></i>Figma（描画エンジン）
+                                </span>
+                                <span class="example-tag bg-yellow-100 text-yellow-700">
+                                    <i class="fas fa-photo-video mr-1"></i>動画エディター
+                                </span>
+                                <span class="example-tag bg-red-100 text-red-700">
+                                    <i class="fas fa-desktop mr-1"></i>ブラウザ用AutoCAD
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <h3 class="text-lg font-bold text-orange-800 mb-1 flex items-center">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>まとめ
+                </h3>
+                <p class="text-gray-800">
+                    <span class="font-bold">「PWAが"使い心地"を、WebAssemblyが"処理速度"を底上げ」。テクノロジーの進歩で、ブラウザだけでネイティブアプリ並みの体験が実現できるように。</span><br>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script defer src="./slide-nav.js"></script>
+</body>
+</html>
