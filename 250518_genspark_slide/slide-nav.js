@@ -96,10 +96,19 @@
   const ZOOM_MAX = 2.0;
   const ZOOM_STEP = 0.1;
 
-  function applyZoom() {
-    document.body.style.transform = `scale(${zoom})`;
-    document.body.style.transformOrigin = "0 0";
-  }
+function applyZoom() {
+  document.body.style.transform = `scale(${zoom})`;
+  document.body.style.transformOrigin = "0 0";
+  // スライドの実幅（scrollWidthが一番正確）
+  const slideWidth = Math.max(
+    document.body.scrollWidth, 
+    document.body.offsetWidth, 
+    document.documentElement.scrollWidth, 
+    document.documentElement.offsetWidth
+  );
+  document.body.style.minWidth = (slideWidth * zoom) + "px";
+  document.documentElement.style.minWidth = (slideWidth * zoom) + "px";
+}
 
   document.getElementById("gs-zoom-in").addEventListener("click", (e) => {
     e.stopPropagation();
