@@ -1,11 +1,9 @@
 /* slide-nav.js ───────────────────────────────────────────
-   - ページ送り手段
-     • ← / → キー
-     • 左右 40 % 域タップ／クリック
-     • 画面右下 Back / Next ボタン
-   - スクロールはモバイル／PC 共通で縦横とも自由
-   - 水平スクロールやピンチズームではページ送りしない
-   - UI は JS で注入するので HTML は変更不要
+   - ページ送り        : ← / → キー・左右 40% タップ・Back/Next ボタン
+   - 縦スクロール      : 常時可
+   - **横スクロール**  : モバイル／PC 共通で自由に可   ←★今回強化
+   - 水平スクロール操作でページ送りはしない
+   - UI は JS で注入（HTML 変更不要）
    ------------------------------------------------------ */
 (() => {
   /* ===== スライド定義 ===== */
@@ -29,50 +27,47 @@
 
   /* ── クリック / タップ領域 ───────────────────────── */
   addEventListener("click", (e) => {
-    /* スクロール動作直後に発火する “おまけクリック” を抑制するため、
-       直前の touchmove / pointermove で大きく移動していた場合は無視 */
+    /* スクロール直後の「おまけクリック」を無視 */
     if (window.__gs_suppressClick) return (window.__gs_suppressClick = false);
-
     const ratio = e.clientX / innerWidth;
     if (ratio > 0.6)       jump(curIdx + 1);
     else if (ratio < 0.4)  jump(curIdx - 1);
   });
 
-  /* タップ移動量を検知して “ドラッグ後のクリック” を無視するロジック */
-  let startX = 0, startY = 0;
-  const MOVE_THRESHOLD = 25;        // px 以上動けば「スクロール」と判定
-  const setSup = () => (window.__gs_suppressClick = true);
-
-  addEventListener("pointerdown", (e) => { startX = e.clientX; startY = e.clientY; });
+  /* ── ドラッグ量で「スクロール vs タップ」を判定 ───────── */
+  let sx = 0, sy = 0;
+  const TH = 25;
+  const suppress = () => (window.__gs_suppressClick = true);
+  addEventListener("pointerdown", (e) => { sx = e.clientX; sy = e.clientY; });
   addEventListener("pointerup",   (e) => {
-    const dx = Math.abs(e.clientX - startX);
-    const dy = Math.abs(e.clientY - startY);
-    if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) setSup();
+    if (Math.abs(e.clientX - sx) > TH || Math.abs(e.clientY - sy) > TH) suppress();
   });
 
   /* ── スクロール許可（縦横とも）────────────────────── */
-  const html = document.documentElement;
+  const html = document.documentElement, body = document.body;
+  html.style.overflowX = "auto";         // ★横スクロール解禁
   html.style.overflowY = "auto";
-  html.style.overflowX = "auto";
+  body.style.overscrollBehaviorX = "auto"; // iOS Safari “跳ね返り” も許可
 
-  /* ===== viewport メタタグを動的追加（モバイル表示最適化） ===== */
+  /* ===== viewport メタタグ ===== */
   const meta = document.createElement("meta");
   meta.name = "viewport";
   meta.content = "width=device-width, initial-scale=1";
   document.head.appendChild(meta);
 
   /* ===== 右下 Back / Next ボタン ===== */
-  const navBox = document.createElement("div");
-  navBox.innerHTML = `
+  const box = document.createElement("div");
+  box.innerHTML = `
     <button id="gs-back">Back</button>
     <button id="gs-next">Next</button>
   `;
-  Object.assign(navBox.style, {
+  Object.assign(box.style, {
     position: "fixed", bottom: "12px", right: "12px",
     display: "flex", gap: "8px", zIndex: 9999,
+    pointerEvents: "auto"         // 横スクロールを邪魔しない
   });
 
-  const btnStyle = `
+  const css = `
     #gs-back, #gs-next {
       padding: 8px 14px;
       font: 14px/1 sans-serif;
@@ -86,10 +81,10 @@
     #gs-back:hover, #gs-next:hover { opacity: 1; }
   `;
   const styleTag = document.createElement("style");
-  styleTag.textContent = btnStyle;
+  styleTag.textContent = css;
   document.head.appendChild(styleTag);
 
-  document.body.appendChild(navBox);
+  document.body.appendChild(box);
   document.getElementById("gs-back").onclick = () => jump(curIdx - 1);
   document.getElementById("gs-next").onclick = () => jump(curIdx + 1);
 })();
