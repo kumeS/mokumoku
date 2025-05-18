@@ -35,12 +35,13 @@
   body.style.overflowY = "auto";
 
   /* ===== viewport メタタグ（モバイル最適化） ===== */
-  if (!document.querySelector('meta[name="viewport"]')) {
-    const meta = document.createElement("meta");
-    meta.name = "viewport";
-    meta.content = "width=device-width, initial-scale=1";
-    document.head.appendChild(meta);
-  }
+if (!document.querySelector('meta[name="viewport"]')) {
+  const meta = document.createElement("meta");
+  meta.name = "viewport";
+  // ここを修正
+  meta.content = "width=device-width, initial-scale=1, maximum-scale=5.0, user-scalable=yes";
+  document.head.appendChild(meta);
+}
 
   /* ===== 右下 Back / Next ボタン ===== */
   const navBox = document.createElement("div");
