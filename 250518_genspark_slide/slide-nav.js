@@ -29,6 +29,10 @@
   const html = document.documentElement;
   html.style.overflowX = "auto";
   html.style.overflowY = "auto";
+  // ここから追加
+  const body = document.body;
+  body.style.overflowX = "auto";
+  body.style.overflowY = "auto";
 
   /* ===== viewport メタタグ（モバイル最適化） ===== */
   if (!document.querySelector('meta[name="viewport"]')) {
