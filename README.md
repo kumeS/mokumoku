@@ -4,7 +4,7 @@
 
 - [250518_genspark_slide](https://kumes.github.io/mokumoku/250518_genspark_slide)
 
-
+- [250518_WebDev](https://kumes.github.io/mokumoku/250518_WebDev/)
 
 ## AI スライド活用
 
