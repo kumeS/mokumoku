@@ -29,24 +29,25 @@
   const html = document.documentElement;
   html.style.overflowX = "auto";
   html.style.overflowY = "auto";
-  // ここから追加
   const body = document.body;
   body.style.overflowX = "auto";
   body.style.overflowY = "auto";
 
-  /* ===== viewport メタタグ（モバイル最適化） ===== */
-if (!document.querySelector('meta[name="viewport"]')) {
-  const meta = document.createElement("meta");
-  meta.name = "viewport";
-  meta.content = "width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.2, user-scalable=yes";
-  document.head.appendChild(meta);
-}
+  /* ===== viewport メタタグ（モバイル最適化＋ピンチズーム許可） ===== */
+  if (!document.querySelector('meta[name="viewport"]')) {
+    const meta = document.createElement("meta");
+    meta.name = "viewport";
+    meta.content = "width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.25, user-scalable=yes";
+    document.head.appendChild(meta);
+  }
 
-  /* ===== 右下 Back / Next ボタン ===== */
+  /* ===== 右下 Back / Next ボタン＋ズーム追加 ===== */
   const navBox = document.createElement("div");
   navBox.innerHTML = `
     <button id="gs-back">Back</button>
     <button id="gs-next">Next</button>
+    <button id="gs-zoom-in" title="拡大">＋</button>
+    <button id="gs-zoom-out" title="縮小">−</button>
   `;
   Object.assign(navBox.style, {
     position: "fixed",
@@ -60,7 +61,7 @@ if (!document.querySelector('meta[name="viewport"]')) {
 
   /* ボタン基本スタイル */
   const css = `
-    #gs-back, #gs-next {
+    #gs-back, #gs-next, #gs-zoom-in, #gs-zoom-out {
       padding: 8px 14px;
       font: 14px/1 sans-serif;
       border: 1px solid #666;
@@ -70,7 +71,7 @@ if (!document.querySelector('meta[name="viewport"]')) {
       opacity: .85;
       touch-action: manipulation;
     }
-    #gs-back:hover, #gs-next:hover { opacity: 1; }
+    #gs-back:hover, #gs-next:hover, #gs-zoom-in:hover, #gs-zoom-out:hover { opacity: 1; }
   `;
   const styleTag = document.createElement("style");
   styleTag.textContent = css;
@@ -88,4 +89,35 @@ if (!document.querySelector('meta[name="viewport"]')) {
     e.stopPropagation();
     goTo(curIdx + 1);
   });
+
+  // --- ここからズーム制御だけ追加 ---
+  let zoom = 1.0;
+  const ZOOM_MIN = 0.5;
+  const ZOOM_MAX = 2.0;
+  const ZOOM_STEP = 0.1;
+
+  function applyZoom() {
+    document.body.style.transform = `scale(${zoom})`;
+    document.body.style.transformOrigin = "0 0";
+  }
+
+  document.getElementById("gs-zoom-in").addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (zoom < ZOOM_MAX) {
+      zoom = Math.round((zoom + ZOOM_STEP) * 100) / 100;
+      if (zoom > ZOOM_MAX) zoom = ZOOM_MAX;
+      applyZoom();
+    }
+  });
+
+  document.getElementById("gs-zoom-out").addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (zoom > ZOOM_MIN) {
+      zoom = Math.round((zoom - ZOOM_STEP) * 100) / 100;
+      if (zoom < ZOOM_MIN) zoom = ZOOM_MIN;
+      applyZoom();
+    }
+  });
+  // --- ズーム追加はここまで ---
+
 })();
