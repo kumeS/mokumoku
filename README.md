@@ -1,6 +1,6 @@
 # mokumoku
 
-## 一覧
+## 資料一覧
 
 - [250518_genspark_slide](https://kumes.github.io/mokumoku/250518_genspark_slide)
 
