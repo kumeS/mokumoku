@@ -8,7 +8,7 @@
 
 ## AI スライド活用
 
-1. [ChatGPT](https://chatgpt.com/) の o3 で、基本的な情報を調査してまとめる。
+1.[ChatGPT](https://chatgpt.com/) の o3 で、基本的な情報を調査してまとめる。
 
 （プロンプト例）
 ```
@@ -21,7 +21,7 @@ Gensparkの概要を説明する、スライド5枚を作成したいです。�
 （スライド5）Gensparkの今後の機能開発の概要とタイムライン
 ```
 
-2. [Genspark](https://www.genspark.ai/) AI スライドで、スライド作成
+2.[Genspark](https://www.genspark.ai/) AI スライドで、スライド作成
 
 （プロンプト例）
 ```
@@ -37,7 +37,7 @@ gensparkの概要を説明する、クールデザインのスライド5枚を�
 
 ※ Bug-fixのときは、GPT-4.1 が使えるかも...(調査中)
 
-3. 各htmlの末尾に、js script行を追記する。
+3.各htmlの末尾に、js script行を追記する。
 
 ```
     <script defer src="./slide-nav.js"></script>
