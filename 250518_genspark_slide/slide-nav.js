@@ -105,7 +105,7 @@ function applyZoom() {
     document.getElementById('main') ||
     document.body;
 
-  const slideWidth = slideElem.scrollWidth * 1.1;
+  const slideWidth = slideElem.scrollWidth;
   document.body.style.minWidth = (slideWidth * zoom) + "px";
   document.documentElement.style.minWidth = (slideWidth * zoom) + "px";
 }
