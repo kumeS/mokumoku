@@ -6,7 +6,7 @@
    ------------------------------------------------------ */
 (() => {
   /* ===== スライド定義 ===== */
-  const slides = ["index.html", "02.html", "03.html", "04.html", "05.html", "06.html", "07.html", "08.html", "09.html", "10.html"];
+  const slides = ["index.html", "02.html", "03.html", "04.html", "05.html", "06.html", "07.html", "08.html", "09.html"];
 
   /* ===== 現在ページを判定（末尾 / のアクセスも index.html 扱い） ===== */
   let curName = location.pathname.split("/").pop();
