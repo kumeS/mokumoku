@@ -6,6 +6,8 @@
 
 - [250518_WebDev](https://kumes.github.io/mokumoku/250518_WebDev/)
 
+- [250520_AI_era_2025](https://kumes.github.io/mokumoku/250520_AI_era_2025)
+
 ## AI スライド活用
 
 1.[ChatGPT](https://chatgpt.com/) の o3 で、基本的な情報を調査してまとめる。
