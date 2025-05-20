@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI主役社会で人間が果たす役割</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .diagonal-bg {
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                135deg,
+                #f0f9ff,
+                #f0f9ff 10px,
+                #ffffff 10px,
+                #ffffff 20px
+            );
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .wave-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: #0096d6;
+            clip-path: polygon(
+                0% 0%, 100% 0%, 100% 60%, 95% 60%, 90% 100%, 85% 60%, 80% 100%, 
+                75% 60%, 70% 100%, 65% 60%, 60% 100%, 55% 60%, 50% 100%, 45% 60%, 
+                40% 100%, 35% 60%, 30% 100%, 25% 60%, 20% 100%, 15% 60%, 10% 100%, 
+                5% 60%, 0% 60%
+            );
+        }
+        .bottom-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: #0096d6;
+            clip-path: polygon(
+                0% 40%, 5% 0%, 10% 40%, 15% 0%, 20% 40%, 25% 0%, 30% 40%, 35% 0%, 
+                40% 40%, 45% 0%, 50% 40%, 55% 0%, 60% 40%, 65% 0%, 70% 40%, 75% 0%, 
+                80% 40%, 85% 0%, 90% 40%, 95% 0%, 100% 40%, 100% 100%, 0% 100%
+            );
+        }
+        .title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #ffe600;
+            text-shadow: 
+                2px 2px 0 #0096d6,
+                -2px 2px 0 #0096d6,
+                2px -2px 0 #0096d6,
+                -2px -2px 0 #0096d6;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 28px;
+            color: #0096d6;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 3px solid #0096d6;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            width: 85%;
+            max-width: 1000px;
+        }
+        .point {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #333;
+            position: relative;
+            padding-left: 30px;
+        }
+        .point:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: #ffe600;
+            border-radius: 50%;
+        }
+        .star {
+            position: absolute;
+            color: #0096d6;
+            z-index: 1;
+        }
+        .whale-tail {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            width: 80px;
+            height: 40px;
+            background-color: #0096d6;
+            border-radius: 0 0 40px 40px;
+            transform: rotate(180deg);
+            z-index: 1;
+        }
+        .whale-tail:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 20px;
+            width: 40px;
+            height: 20px;
+            background-color: #0096d6;
+            border-radius: 20px 20px 0 0;
+        }
+        .dot-group {
+            position: absolute;
+            display: grid;
+            grid-template-columns: repeat(5, 6px);
+            grid-gap: 4px;
+            z-index: 1;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #0096d6;
+            border-radius: 50%;
+        }
+        .highlight {
+            color: #0096d6;
+            font-weight: bold;
+        }
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #0096d6;
+            color: white;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .human-ai-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .diagram-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+        .ai-circle {
+            background-color: rgba(0, 150, 214, 0.2);
+            border: 3px solid #0096d6;
+        }
+        .human-circle {
+            background-color: rgba(255, 230, 0, 0.2);
+            border: 3px solid #ffe600;
+        }
+        .overlap-circle {
+            background: linear-gradient(135deg, rgba(0, 150, 214, 0.2) 0%, rgba(255, 230, 0, 0.2) 100%);
+            border: 3px dashed #0096d6;
+        }
+        .circle-title {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .ai-title {
+            color: #0096d6;
+        }
+        .human-title {
+            color: #d96500;
+        }
+        .circle-content {
+            font-size: 14px;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="diagonal-bg"></div>
+        
+        <!-- Wave borders -->
+        <div class="wave-border"></div>
+        <div class="bottom-wave"></div>
+        
+        <!-- Content -->
+        <div class="flex flex-col items-center justify-center h-full pt-20 pb-16">
+            <h1 class="title mb-3">AI主役社会で<br>人間が果たす役割</h1>
+            <h2 class="subtitle mb-6">人間とAIの新しい共存の形</h2>
+            
+            <div class="human-ai-diagram">
+                <div class="diagram-circle ai-circle">
+                    <div class="circle-title ai-title">AI</div>
+                    <div class="circle-content">
+                        経済活動の主戦場<br>
+                        大量処理<br>
+                        効率化・最適化<br>
+                        論理的判断
+                    </div>
+                </div>
+                <div class="diagram-circle overlap-circle">
+                    <div class="circle-title">共存領域</div>
+                    <div class="circle-content">
+                        協働作業<br>
+                        創造性の拡張<br>
+                        意思決定の補助<br>
+                        学習と成長
+                    </div>
+                </div>
+                <div class="diagram-circle human-circle">
+                    <div class="circle-title human-title">人間</div>
+                    <div class="circle-content">
+                        予測不能な創造性<br>
+                        倫理的判断<br>
+                        共感・優しさ<br>
+                        ランダム性
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-box mt-4">
+                <div class="point">経済活動の主戦場はAIが担い、人間は<span class="highlight">「補欠の仕事」や例外処理</span>を担当</div>
+                <div class="point">人間特有の<span class="highlight">ランダム性・逸脱行動</span>が不可欠なスパイスに</div>
+                <div class="point">知能格差なき世界で顕在化する<span class="highlight">「承認格差」「自己実現格差」</span></div>
+                <div class="point">成功の鍵は<span class="highlight">優しさ・親切・共感・倫理的判断</span>といった人間らしさ</div>
+                <div class="point">人間はAIと<span class="highlight">共存しながら予測不能な創造性</span>で価値を示す時代へ</div>
+            </div>
+        </div>
+        
+        <!-- Decorative elements -->
+        <div class="star text-3xl" style="top: 120px; left: 180px;"><i class="fas fa-star"></i></div>
+        <div class="star text-2xl" style="top: 140px; left: 160px;"><i class="fas fa-star"></i></div>
+        <div class="star text-xl" style="top: 130px; left: 200px;"><i class="fas fa-star"></i></div>
+        
+        <div class="star text-3xl" style="bottom: 150px; right: 180px;"><i class="fas fa-star"></i></div>
+        <div class="star text-2xl" style="bottom: 170px; right: 160px;"><i class="fas fa-star"></i></div>
+        <div class="star text-xl" style="bottom: 160px; right: 200px;"><i class="fas fa-star"></i></div>
+        
+        <div class="dot-group" style="top: 180px; left: 150px;">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        
+        <div class="dot-group" style="bottom: 180px; right: 150px;">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        
+        <div class="whale-tail"></div>
+    </div>
+</body>
+</html>

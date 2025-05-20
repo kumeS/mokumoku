@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知的革命の幕開け</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background: linear-gradient(135deg, #0a0a1a 0%, #161632 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(88, 34, 160, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(28, 110, 210, 0.2) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(110, 215, 255, 0.8), 0 0 20px rgba(110, 215, 255, 0.5);
+        }
+        .neon-border {
+            border: 1px solid rgba(110, 215, 255, 0.3);
+            box-shadow: 0 0 10px rgba(110, 215, 255, 0.5), inset 0 0 10px rgba(110, 215, 255, 0.2);
+        }
+        .content-block {
+            backdrop-filter: blur(5px);
+            background-color: rgba(30, 30, 60, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(78, 150, 249, 0.2);
+        }
+        .wave-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4e96f9, transparent);
+            animation: wave-animation 8s infinite linear;
+            opacity: 0.5;
+        }
+        @keyframes wave-animation {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide flex flex-col p-12 relative">
+        <!-- Particle effects -->
+        <div class="particles" id="particles-js"></div>
+        
+        <!-- Animated wave lines -->
+        <div class="wave-line" style="top: 120px;"></div>
+        <div class="wave-line" style="bottom: 150px;"></div>
+        
+        <!-- Content container -->
+        <div class="z-10 flex flex-col h-full">
+            <!-- Header -->
+            <div class="mb-12 text-center">
+                <h1 class="text-6xl font-bold tracking-tight mb-2 glow-text text-blue-300">知的革命の幕開け</h1>
+                <p class="text-xl text-blue-200 opacity-80">The Dawn of Intellectual Revolution</p>
+            </div>
+            
+            <!-- Main content -->
+            <div class="grid grid-cols-2 gap-8 h-full">
+                <!-- Left column -->
+                <div class="flex flex-col space-y-6">
+                    <div class="content-block neon-border rounded-lg p-6 flex-1">
+                        <div class="flex items-start mb-2">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-700 flex items-center justify-center mr-4">
+                                <i class="fas fa-history text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-blue-300">第三の波</h2>
+                        </div>
+                        <p class="text-lg text-gray-200">農業革命・産業革命に続く<span class="text-blue-300 font-semibold">第三の波</span>として、AIがもたらす「知的革命」が本格化</p>
+                    </div>
+                    
+                    <div class="content-block neon-border rounded-lg p-6 flex-1">
+                        <div class="flex items-start mb-2">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-700 flex items-center justify-center mr-4">
+                                <i class="fas fa-cogs text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-blue-300">知能の大量生産</h2>
+                        </div>
+                        <p class="text-lg text-gray-200">超高速・自己学習型スーパーAIエージェントの登場により、<span class="text-purple-300 font-semibold">知的労働の大部分が自動化</span>され、人類史上初めて「知能」それ自体が大量生産される段階へ</p>
+                    </div>
+                </div>
+                
+                <!-- Right column -->
+                <div class="flex flex-col space-y-6">
+                    <div class="content-block neon-border rounded-lg p-6 flex-1">
+                        <div class="flex items-start mb-2">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-700 flex items-center justify-center mr-4">
+                                <i class="fas fa-brain text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-blue-300">価値観の転換</h2>
+                        </div>
+                        <p class="text-lg text-gray-200"><span class="text-purple-300 font-semibold">賢さや専門知識の希少価値が消え</span>、意思決定の主導権がAI側に移動</p>
+                    </div>
+                    
+                    <div class="content-block neon-border rounded-lg p-6 flex-1">
+                        <div class="flex items-start mb-2">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-700 flex items-center justify-center mr-4">
+                                <i class="fas fa-user-cog text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-blue-300">労働環境の激変</h2>
+                        </div>
+                        <p class="text-lg text-gray-200">従来は<span class="text-blue-300 font-semibold">高スキル人材に限られたポジション</span>が次々とAIに置き換えられていく</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-6 flex justify-between items-center">
+                <div class="text-sm text-blue-200 opacity-70">AIによって第三次産業革命「知的革命」が到来した社会</div>
+                <div class="text-sm text-blue-200 opacity-70">1 / 5</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create particle animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const particles = document.getElementById('particles-js');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 5px
+                const size = Math.random() * 3 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = (Math.random() * 8) + 's';
+                
+                particles.appendChild(particle);
+            }
+        });
+    </script>
+</html>

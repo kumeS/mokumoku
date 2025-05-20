@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI主役社会で人間が果たす役割</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a40 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 191, 255, 0.2) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(110, 215, 255, 0.8), 0 0 20px rgba(110, 215, 255, 0.5);
+        }
+        .neon-border {
+            border: 1px solid rgba(110, 215, 255, 0.3);
+            box-shadow: 0 0 10px rgba(110, 215, 255, 0.5), inset 0 0 10px rgba(110, 215, 255, 0.2);
+        }
+        .content-block {
+            backdrop-filter: blur(5px);
+            background-color: rgba(30, 30, 60, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(78, 150, 249, 0.2);
+        }
+        .digital-circuit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: linear-gradient(90deg, rgba(70, 130, 255, 0.3) 1px, transparent 1px),
+                              linear-gradient(rgba(70, 130, 255, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+        .pulse {
+            animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
+        }
+        .icon-pulse {
+            animation: pulse-glow 4s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(110, 215, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(110, 215, 255, 1), 0 0 30px rgba(110, 215, 255, 0.5); }
+        }
+        .float-orbit {
+            animation: orbit 15s infinite linear;
+        }
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+        }
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .value-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+            transition: width 1s ease-in-out;
+        }
+        .human-ai-interaction {
+            position: relative;
+            height: 160px;
+            width: 100%;
+        }
+        .human-icon, .ai-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 2;
+        }
+        .human-icon {
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            left: 25%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.5);
+        }
+        .ai-icon {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            right: 25%;
+            top: 50%;
+            transform: translate(50%, -50%);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        .connection-line {
+            position: absolute;
+            top: 50%;
+            left: 25%;
+            right: 25%;
+            height: 4px;
+            background: linear-gradient(90deg, #f472b6, #60a5fa);
+            transform: translateY(-50%);
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(148, 163, 184, 0.7);
+        }
+        .connection-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #8b5cf6;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.8);
+        }
+        .node-1 { left: 25%; animation: moveNode 3s infinite alternate ease-in-out; }
+        .node-2 { left: 50%; animation: moveNode 2.5s infinite alternate-reverse ease-in-out; }
+        .node-3 { left: 75%; animation: moveNode 4s infinite alternate ease-in-out; }
+        
+        @keyframes moveNode {
+            0%, 100% { transform: translateY(-10px); }
+            50% { transform: translateY(10px); }
+        }
+        .futuristic-ring {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        .ring-1 {
+            width: 140px;
+            height: 140px;
+            border-color: rgba(99, 102, 241, 0.5);
+            animation: rotate 10s infinite linear;
+        }
+        .ring-2 {
+            width: 200px;
+            height: 200px;
+            border-color: rgba(244, 114, 182, 0.5);
+            animation: rotate 15s infinite linear reverse;
+        }
+        .ring-3 {
+            width: 260px;
+            height: 260px;
+            border-color: rgba(139, 92, 246, 0.5);
+            animation: rotate 20s infinite linear;
+        }
+        @keyframes rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .ring-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide flex flex-col p-12 relative">
+        <!-- Particle effects -->
+        <div class="particles" id="particles-js"></div>
+        
+        <!-- Digital circuit background -->
+        <div class="digital-circuit"></div>
+        
+        <!-- Content container -->
+        <div class="z-10 flex flex-col h-full">
+            <!-- Header -->
+            <div class="mb-6 text-center">
+                <h1 class="text-5xl font-bold tracking-tight mb-2 glow-text text-purple-300">AI主役社会で人間が果たす役割</h1>
+                <p class="text-xl text-cyan-300 opacity-80">Human Roles in an AI-Driven Society</p>
+            </div>
+            
+            <!-- Human-AI symbiosis visualization -->
+            <div class="content-block neon-border rounded-lg p-4 mb-6">
+                <div class="human-ai-interaction">
+                    <div class="human-icon">
+                        <i class="fas fa-user icon-pulse"></i>
+                    </div>
+                    <div class="ai-icon">
+                        <i class="fas fa-robot icon-pulse"></i>
+                    </div>
+                    <div class="connection-line"></div>
+                    <div class="connection-node node-1"></div>
+                    <div class="connection-node node-2"></div>
+                    <div class="connection-node node-3"></div>
+                    <div class="ring-container">
+                        <div class="futuristic-ring ring-1"></div>
+                        <div class="futuristic-ring ring-2"></div>
+                        <div class="futuristic-ring ring-3"></div>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-lg">
+                    <span class="text-pink-300 font-bold">経済活動の主戦場はAIが担い</span>、人間は<span class="text-cyan-300 font-bold">例外処理と創造的役割</span>へ
+                </p>
+            </div>
+            
+            <!-- Main content grid -->
+            <div class="grid grid-cols-2 gap-6 mb-6 flex-grow">
+                <!-- Left column -->
+                <div class="flex flex-col space-y-6">
+                    <!-- Role transformation -->
+                    <div class="grid-item content-block neon-border rounded-lg p-5 h-1/2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center mr-3">
+                                <i class="fas fa-sync-alt text-xl icon-pulse"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-cyan-300">人間の役割転換</h2>
+                        </div>
+                        <ul class="space-y-3 pl-2">
+                            <li class="flex items-start">
+                                <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-pink-300 font-bold">補欠の仕事</span>と<span class="text-cyan-300 font-bold">例外処理</span>が主流に</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base">クリエイターも<span class="text-purple-300 font-bold">AIのバックアップ</span>に</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base">人間特有の<span class="text-cyan-300 font-bold">ランダム性・逸脱行動</span>が価値に</p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Unpredictable creativity -->
+                    <div class="grid-item content-block neon-border rounded-lg p-5 h-1/2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-400 flex items-center justify-center mr-3">
+                                <i class="fas fa-lightbulb text-xl icon-pulse"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-yellow-300">予測不能な創造性</h2>
+                        </div>
+                        <ul class="space-y-3 pl-2">
+                            <li class="flex items-start">
+                                <div class="text-yellow-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-yellow-300 font-bold">AIと共存</span>しながら新たな価値創造</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-yellow-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-cyan-300 font-bold">予測不能なアイデア</span>が稀少資源に</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-yellow-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base">人間の<span class="text-yellow-300 font-bold">直感的判断</span>と<span class="text-pink-300 font-bold">逆説的思考</span>の価値向上</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Right column -->
+                <div class="flex flex-col space-y-6">
+                    <!-- New status indicators -->
+                    <div class="grid-item content-block neon-border rounded-lg p-5 h-1/2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-400 flex items-center justify-center mr-3">
+                                <i class="fas fa-chart-line text-xl icon-pulse"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-purple-300">新たなステータス指標</h2>
+                        </div>
+                        <ul class="space-y-3 pl-2">
+                            <li class="flex items-start">
+                                <div class="text-purple-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-pink-300 font-bold">「承認格差」「自己実現格差」</span>の顕在化</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-purple-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-purple-300 font-bold">社会的必要性</span>が新たな価値基準に</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-purple-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base">自らの<span class="text-cyan-300 font-bold">存在意義</span>の再定義が必須に</p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Human values -->
+                    <div class="grid-item content-block neon-border rounded-lg p-5 h-1/2">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-teal-400 flex items-center justify-center mr-3">
+                                <i class="fas fa-hand-holding-heart text-xl icon-pulse"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-green-300">人間的価値の台頭</h2>
+                        </div>
+                        <ul class="space-y-3 pl-2">
+                            <li class="flex items-start">
+                                <div class="text-green-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-green-300 font-bold">知識量より「ヒューマンセンス」</span>が重要に</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-green-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-cyan-300 font-bold">優しさ・共感・倫理的判断</span>が唯一の価値に</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-green-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                                <p class="text-base"><span class="text-pink-300 font-bold">「イイ人」</span>であることの社会的評価向上</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom summary section - Human values visualization -->
+            <div class="content-block neon-border rounded-lg p-6 mt-auto mb-2">
+                <div class="flex justify-between items-center">
+                    <div class="w-1/4 text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-pink-500 to-red-400 flex items-center justify-center mb-2 pulse">
+                            <i class="fas fa-heart text-2xl"></i>
+                        </div>
+                        <p class="text-pink-300 font-bold">共感力</p>
+                        <div class="h-2 w-full bg-gray-700 rounded-full mt-1">
+                            <div class="value-bar" style="width:85%; background:linear-gradient(90deg, #ec4899, #f472b6);"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/4 text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-green-500 to-emerald-400 flex items-center justify-center mb-2 pulse">
+                            <i class="fas fa-hands-helping text-2xl"></i>
+                        </div>
+                        <p class="text-green-300 font-bold">倫理的判断</p>
+                        <div class="h-2 w-full bg-gray-700 rounded-full mt-1">
+                            <div class="value-bar" style="width:90%; background:linear-gradient(90deg, #10b981, #34d399);"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/4 text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-purple-500 to-violet-400 flex items-center justify-center mb-2 pulse">
+                            <i class="fas fa-random text-2xl"></i>
+                        </div>
+                        <p class="text-purple-300 font-bold">予測不能創造性</p>
+                        <div class="h-2 w-full bg-gray-700 rounded-full mt-1">
+                            <div class="value-bar" style="width:95%; background:linear-gradient(90deg, #8b5cf6, #a78bfa);"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/4 text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center mb-2 pulse">
+                            <i class="fas fa-users text-2xl"></i>
+                        </div>
+                        <p class="text-blue-300 font-bold">社会的関係構築</p>
+                        <div class="h-2 w-full bg-gray-700 rounded-full mt-1">
+                            <div class="value-bar" style="width:80%; background:linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-lg mt-4">
+                    <span class="text-cyan-300 font-bold">ヒトはAIと共存しながら</span>、<span class="text-pink-300 font-bold">人間らしさ</span>で価値を示す時代の到来
+                </p>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-2 flex justify-between items-center">
+                <div class="text-sm text-blue-200 opacity-70">AIによって第三次産業革命「知的革命」が到来した社会</div>
+                <div class="text-sm text-blue-200 opacity-70">5 / 5</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create particle animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const particles = document.getElementById('particles-js');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 1px and 4px
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = (Math.random() * 8) + 's';
+                
+                particles.appendChild(particle);
+            }
+            
+            // Animate value bars
+            const valueBars = document.querySelectorAll('.value-bar');
+            valueBars.forEach(bar => {
+                const originalWidth = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = originalWidth;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

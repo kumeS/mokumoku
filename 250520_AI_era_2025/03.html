@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>能力の平均化と「承認格差」の台頭</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a40 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 191, 255, 0.2) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(110, 215, 255, 0.8), 0 0 20px rgba(110, 215, 255, 0.5);
+        }
+        .neon-border {
+            border: 1px solid rgba(110, 215, 255, 0.3);
+            box-shadow: 0 0 10px rgba(110, 215, 255, 0.5), inset 0 0 10px rgba(110, 215, 255, 0.2);
+        }
+        .content-block {
+            backdrop-filter: blur(5px);
+            background-color: rgba(30, 30, 60, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(78, 150, 249, 0.2);
+        }
+        .digital-circuit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: linear-gradient(90deg, rgba(70, 130, 255, 0.3) 1px, transparent 1px),
+                              linear-gradient(rgba(70, 130, 255, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            height: 60px;
+            justify-content: center;
+            gap: 3px;
+        }
+        .equalizer-bar {
+            width: 8px;
+            background: linear-gradient(to top, #4f46e5, #818cf8);
+            border-radius: 2px;
+            animation: equalize 3s infinite;
+        }
+        @keyframes equalize {
+            0%, 100% { height: 15%; }
+            50% { height: 90%; }
+        }
+        .scale-up-down {
+            animation: scale-animation 8s infinite ease-in-out;
+        }
+        @keyframes scale-animation {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .pulse {
+            animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
+        }
+        .icon-pulse {
+            animation: pulse-glow 4s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(110, 215, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(110, 215, 255, 1), 0 0 30px rgba(110, 215, 255, 0.5); }
+        }
+        .balance-scale {
+            position: relative;
+            width: 100%;
+            height: 120px;
+        }
+        .scale-beam {
+            position: absolute;
+            width: 60%;
+            height: 6px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            left: 20%;
+            top: 40%;
+            transform-origin: center;
+            animation: tilt 8s infinite ease-in-out;
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        .scale-platform-left, .scale-platform-right {
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #a78bfa);
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        .scale-platform-left {
+            left: 20%;
+            bottom: 30%;
+        }
+        .scale-platform-right {
+            right: 20%;
+            bottom: 45%;
+        }
+        .scale-stand {
+            position: absolute;
+            width: 8px;
+            height: 60px;
+            background: linear-gradient(to top, #6366f1, #818cf8);
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        .scale-base {
+            position: absolute;
+            width: 120px;
+            height: 10px;
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        @keyframes tilt {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide flex flex-col p-12 relative">
+        <!-- Particle effects -->
+        <div class="particles" id="particles-js"></div>
+        
+        <!-- Digital circuit background -->
+        <div class="digital-circuit"></div>
+        
+        <!-- Content container -->
+        <div class="z-10 flex flex-col h-full">
+            <!-- Header -->
+            <div class="mb-8 text-center">
+                <h1 class="text-5xl font-bold tracking-tight mb-2 glow-text text-purple-300">能力の平均化と「承認格差」の台頭</h1>
+                <p class="text-xl text-cyan-300 opacity-80">Homogenization of Abilities & Rise of Recognition Gaps</p>
+            </div>
+            
+            <!-- Visual representation of equalizing abilities -->
+            <div class="content-block neon-border rounded-lg p-4 mb-6">
+                <div class="flex items-center justify-center space-x-8">
+                    <div class="equalizer" title="能力の平均化">
+                        <div class="equalizer-bar" style="height: 85%; animation-delay: 0.1s;"></div>
+                        <div class="equalizer-bar" style="height: 45%; animation-delay: 0.2s;"></div>
+                        <div class="equalizer-bar" style="height: 65%; animation-delay: 0.3s;"></div>
+                        <div class="equalizer-bar" style="height: 40%; animation-delay: 0.4s;"></div>
+                        <div class="equalizer-bar" style="height: 90%; animation-delay: 0.5s;"></div>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-arrow-right text-xl text-cyan-300 mx-2"></i>
+                    </div>
+                    <div class="equalizer" title="AI導入後の能力平均化">
+                        <div class="equalizer-bar" style="height: 60%; animation-delay: 0.6s;"></div>
+                        <div class="equalizer-bar" style="height: 55%; animation-delay: 0.7s;"></div>
+                        <div class="equalizer-bar" style="height: 65%; animation-delay: 0.8s;"></div>
+                        <div class="equalizer-bar" style="height: 60%; animation-delay: 0.9s;"></div>
+                        <div class="equalizer-bar" style="height: 65%; animation-delay: 1.0s;"></div>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-lg">
+                    <span class="text-pink-300 font-bold">AIの標準装備化</span>により<span class="text-cyan-300 font-bold">個人差が急速に縮小</span>
+                </p>
+            </div>
+            
+            <!-- Main content grid -->
+            <div class="grid grid-cols-3 gap-6 mb-6 flex-grow">
+                <!-- AI Standardization -->
+                <div class="grid-item content-block neon-border rounded-lg p-5">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-comments text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-cyan-300">コミュ力の平均化</h2>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-pink-300 font-bold">コミュ障</span>でもAIで<span class="text-cyan-300 font-bold">平均的なコミュ力</span>確保</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base">個性的表現より<span class="text-blue-300 font-bold">標準化された対話</span>が増加</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Intelligence Equalization -->
+                <div class="grid-item content-block neon-border rounded-lg p-5">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-brain text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-purple-300">知的優位性の無効化</h2>
+                    </div>
+                    <div class="balance-scale">
+                        <div class="scale-beam"></div>
+                        <div class="scale-platform-left"></div>
+                        <div class="scale-platform-right"></div>
+                        <div class="scale-stand"></div>
+                        <div class="scale-base"></div>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-blue-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-blue-300 font-bold">高知能層</span>はAI依存で判断力<span class="text-pink-300 font-bold">劣化</span></p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-blue-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-purple-300 font-bold">低知能層</span>はAI補完で<span class="text-cyan-300 font-bold">底上げ</span></p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Recognition Gap -->
+                <div class="grid-item content-block neon-border rounded-lg p-5">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-600 to-red-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-heart text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-300">承認格差の台頭</h2>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-cyan-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-cyan-300 font-bold">所得格差</span>より<span class="text-pink-300 font-bold">承認感の格差</span>が重要に</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-cyan-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-purple-300 font-bold">自己実現感・他己実現感</span>の有無が決定的</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-cyan-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base">社会から<span class="text-cyan-300 font-bold">必要とされている</span>という実感</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom summary section -->
+            <div class="content-block neon-border rounded-lg p-4 mt-auto mb-6">
+                <div class="flex justify-around items-center">
+                    <div class="text-center pulse">
+                        <i class="fas fa-money-bill-wave text-3xl text-green-400 mb-2"></i>
+                        <p class="text-sm">所得格差</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-arrows-alt-h text-3xl text-blue-300 mb-2"></i>
+                    </div>
+                    <div class="text-center scale-up-down">
+                        <i class="fas fa-thumbs-up text-3xl text-pink-400 mb-2"></i>
+                        <p class="text-sm font-bold text-pink-300">承認格差</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-plus text-3xl text-blue-300 mb-2"></i>
+                    </div>
+                    <div class="text-center scale-up-down">
+                        <i class="fas fa-star text-3xl text-purple-400 mb-2"></i>
+                        <p class="text-sm font-bold text-purple-300">自己実現格差</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-2 flex justify-between items-center">
+                <div class="text-sm text-blue-200 opacity-70">AIによって第三次産業革命「知的革命」が到来した社会</div>
+                <div class="text-sm text-blue-200 opacity-70">4 / 5</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create particle animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const particles = document.getElementById('particles-js');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 1px and 4px
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = (Math.random() * 8) + 's';
+                
+                particles.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>

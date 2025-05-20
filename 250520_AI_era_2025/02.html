@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メディア＆エンタメのオートメーション</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a40 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 191, 255, 0.2) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(110, 215, 255, 0.8), 0 0 20px rgba(110, 215, 255, 0.5);
+        }
+        .neon-border {
+            border: 1px solid rgba(110, 215, 255, 0.3);
+            box-shadow: 0 0 10px rgba(110, 215, 255, 0.5), inset 0 0 10px rgba(110, 215, 255, 0.2);
+        }
+        .content-block {
+            backdrop-filter: blur(5px);
+            background-color: rgba(30, 30, 60, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(78, 150, 249, 0.2);
+        }
+        .media-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 150, 255, 0.1) 100%);
+            transform-origin: bottom;
+            animation: wave 15s infinite linear;
+        }
+        @keyframes wave {
+            0% { transform: scaleY(0.8); }
+            50% { transform: scaleY(1.2); }
+            100% { transform: scaleY(0.8); }
+        }
+        .signal-wave {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background-color: rgba(0, 195, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.8), 0 0 20px rgba(0, 195, 255, 0.5);
+            z-index: 2;
+            animation: signal 4s infinite ease-out;
+        }
+        @keyframes signal {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(20);
+                opacity: 0;
+            }
+        }
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .icon-pulse {
+            animation: pulse-glow 4s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(110, 215, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(110, 215, 255, 1), 0 0 30px rgba(110, 215, 255, 0.5); }
+        }
+        .digital-circuit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: linear-gradient(90deg, rgba(70, 130, 255, 0.3) 1px, transparent 1px),
+                              linear-gradient(rgba(70, 130, 255, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide flex flex-col p-12 relative">
+        <!-- Particle effects -->
+        <div class="particles" id="particles-js"></div>
+        
+        <!-- Digital circuit background -->
+        <div class="digital-circuit"></div>
+        
+        <!-- Media waves -->
+        <div class="media-wave" style="opacity: 0.3; animation-delay: 0s;"></div>
+        <div class="media-wave" style="opacity: 0.2; animation-delay: 2s;"></div>
+        
+        <!-- Signal waves -->
+        <div class="signal-wave" style="top: 30%; left: 20%; animation-delay: 0s;"></div>
+        <div class="signal-wave" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
+        <div class="signal-wave" style="top: 20%; left: 70%; animation-delay: 1s;"></div>
+        
+        <!-- Content container -->
+        <div class="z-10 flex flex-col h-full">
+            <!-- Header -->
+            <div class="mb-8 text-center">
+                <h1 class="text-5xl font-bold tracking-tight mb-2 glow-text text-cyan-300">メディア＆エンタメのオートメーション</h1>
+                <p class="text-xl text-purple-300 opacity-80">Media & Entertainment Automation</p>
+            </div>
+            
+            <!-- Main content grid -->
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <!-- Automated Content Creation -->
+                <div class="grid-item content-block neon-border rounded-lg p-5 relative">
+                    <div class="absolute top-2 right-2 opacity-15">
+                        <i class="fas fa-film text-8xl text-blue-400"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-robot text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-cyan-300">エンドツーエンド自動生成</h2>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-pink-300 font-bold">ニュース原稿・脚本・映像コンテ</span>までAIが制作</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-pink-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base">企画会議は<span class="text-cyan-300 font-bold">秒単位</span>で回る超高速化</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Personalized Content -->
+                <div class="grid-item content-block neon-border rounded-lg p-5 relative">
+                    <div class="absolute top-2 right-2 opacity-15">
+                        <i class="fas fa-newspaper text-8xl text-purple-400"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-user-cog text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-purple-300">パーソナライズメディア</h2>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-blue-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-blue-300 font-bold">アクセス最適化AI</span>がリアルタイムデータを操作</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-blue-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-purple-300 font-bold">個人仕様ニュースフィード</span>が大量生成</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Fan Content Generation -->
+                <div class="grid-item content-block neon-border rounded-lg p-5 relative">
+                    <div class="absolute top-2 right-2 opacity-15">
+                        <i class="fas fa-clone text-8xl text-pink-400"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-600 to-red-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-magic text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-pink-300">ファン作品AI革命</h2>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-cyan-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base">人気IPの<span class="text-cyan-300 font-bold">スピンオフと無限続編</span>を生成</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-cyan-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base">人間クリエイターは<span class="text-pink-300 font-bold">キュレーター兼品質保証者</span>へ</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Immersive Experience -->
+                <div class="grid-item content-block neon-border rounded-lg p-5 relative">
+                    <div class="absolute top-2 right-2 opacity-15">
+                        <i class="fas fa-vr-cardboard text-8xl text-cyan-400"></i>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-blue-400 flex items-center justify-center mr-3">
+                            <i class="fas fa-glasses text-xl icon-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-blue-300">没入型コンテンツシフト</h2>
+                    </div>
+                    <ul class="space-y-3 pl-2">
+                        <li class="flex items-start">
+                            <div class="text-purple-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base"><span class="text-purple-300 font-bold">低価格VR/MRデバイス</span>が普及</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-purple-400 mr-2 mt-1"><i class="fas fa-arrow-right"></i></div>
+                            <p class="text-base">メディア競争は<span class="text-cyan-300 font-bold">「体験設計」</span>へシフト</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom summary section -->
+            <div class="content-block neon-border rounded-lg p-5 mb-6">
+                <div class="flex justify-center items-center space-x-6">
+                    <div class="text-center">
+                        <i class="fas fa-satellite-dish text-4xl text-cyan-300 mb-2 icon-pulse"></i>
+                        <p class="text-sm">ライブ配信</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-comment-dots text-4xl text-purple-300 mb-2 icon-pulse"></i>
+                        <p class="text-sm">インタラクティブ</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-brain text-4xl text-pink-300 mb-2 icon-pulse"></i>
+                        <p class="text-sm">ニューラル生成</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-users text-4xl text-blue-300 mb-2 icon-pulse"></i>
+                        <p class="text-sm">集合知</p>
+                    </div>
+                </div>
+                <p class="text-center mt-3 text-lg">
+                    <span class="text-pink-300 font-bold">現実を凌駕する没入型ストーリー</span>が常時配信され、新時代のエンターテイメントへ
+                </p>
+            </div>
+            
+            <!-- Footer -->
+            <div class="mt-auto pt-2 flex justify-between items-center">
+                <div class="text-sm text-blue-200 opacity-70">AIによって第三次産業革命「知的革命」が到来した社会</div>
+                <div class="text-sm text-blue-200 opacity-70">3 / 5</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create particle animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const particles = document.getElementById('particles-js');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 1px and 4px
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = (Math.random() * 8) + 's';
+                
+                particles.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
